@@ -7,7 +7,6 @@ class AddEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('追加・編集画面')),
       body: Center(
           child: TextButton(
         onPressed: () {
