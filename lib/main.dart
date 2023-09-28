@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'screens/home/home_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting('ja_JP').then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

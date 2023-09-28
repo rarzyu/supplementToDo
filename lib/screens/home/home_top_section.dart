@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 /// セクション全体
@@ -12,19 +11,25 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.0,
+      height: 70.0,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          YearMonthSelect(),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return AddEditScreen(index: 0);
-                  }),
-                );
-              },
-              icon: Icon(Icons.add))
+          Padding(
+            padding: EdgeInsets.only(left: 9.0),
+            child: YearMonthSelect(),
+          ),
+          Padding(
+              padding: EdgeInsets.only(right: 9.0),
+              child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return AddEditScreen(index: 0);
+                      }),
+                    );
+                  },
+                  child: Icon(Icons.add)))
         ],
       ),
     );
@@ -47,19 +52,21 @@ class YearMonthModel extends DatePickerModel {
 
   @override
   List<int> layoutProportions() {
-    return [1, 1, 0];
+    return [1, 1, 0]; // ここで年月のみに指定
   }
 }
 
 /// 年月選択ドラムロールとそのボタン
 class YearMonthSelect extends StatefulWidget {
   @override
-  State<YearMonthSelect> createState() => _YearMonthSelect();
+  _YearMonthSelect createState() => _YearMonthSelect();
 }
 
 class _YearMonthSelect extends State<YearMonthSelect> {
   late String yearMonth;
   late DateTime dateTime;
+  final minDate = DateTime(DateTime.now().year - 2, 1, 1); // 最小は2年前の1月1日
+  final maxDate = DateTime(DateTime.now().year + 2, 12, 31); //　最大は2年後の12月31日
 
   @override
   void initState() {
@@ -78,8 +85,8 @@ class _YearMonthSelect extends State<YearMonthSelect> {
             locale: LocaleType.jp,
             pickerModel: YearMonthModel(
                 currentTime: dateTime,
-                minTime: DateTime(2022, 1, 1),
-                maxTime: DateTime(2023, 12, 31),
+                minTime: minDate,
+                maxTime: maxDate,
                 locale: LocaleType.jp),
             onConfirm: (date) {
               setState(() {

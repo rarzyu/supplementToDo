@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
 import 'package:supplement_to_do/screens/home/date_selector.dart';
 import 'package:supplement_to_do/screens/home/home_top_section.dart';
 import 'package:supplement_to_do/screens/home/task_list.dart';
