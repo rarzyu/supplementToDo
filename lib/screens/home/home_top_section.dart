@@ -3,6 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:supplement_to_do/config/constants/color.dart';
+import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +25,10 @@ class TopSection extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(right: 9.0),
               child: FloatingActionButton(
+                  backgroundColor: AppColors.baseObjectDarkBlue,
+                  // 角丸四角に変更
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
@@ -77,7 +84,19 @@ class _YearMonthSelect extends State<YearMonthSelect> {
 
   @override
   Widget build(BuildContext context) {
+    // 状態管理
+    final dateNotifierRead = context.read<DateManagerNotifier>();
+    final dateNotifierWatch = context.watch<DateManagerNotifier>();
+
+    // 状態管理から日付を取得
+    dateTime = dateNotifierWatch.selectedDate;
+    yearMonth =
+        DateFormat('yyyy年M月').format(dateNotifierWatch.displayedYearMonth);
+
     return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.baseObjectDarkBlue,
+        ),
         onPressed: () {
           DatePicker.showPicker(
             context,
@@ -92,10 +111,21 @@ class _YearMonthSelect extends State<YearMonthSelect> {
               setState(() {
                 dateTime = date;
                 yearMonth = DateFormat('yyyy年M月').format(date);
+
+                //状態管理に渡す
+                dateNotifierRead.setDisplayedYearMonth(dateTime);
+
+                print(date);
               });
             },
           );
         },
-        child: Text(yearMonth));
+        child: Text(
+          yearMonth,
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ));
   }
 }
