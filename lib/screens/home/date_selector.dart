@@ -26,13 +26,6 @@ class DateScroller extends StatefulWidget {
 class _DateScroller extends State<DateScroller> {
   final _controller = ScrollController();
 
-  int getTodayIndex(DateTime startDate) {
-    DateTime today = DateTime.now();
-    return today.difference(startDate).inDays;
-  }
-
-  /// TODO:まずは、選択している月の1ヶ月分の日にちを1日〜末日で表示させる
-  /// また、30日固定ではなく、月末が可変するようにアイテム数は計算する
   @override
   Widget build(BuildContext context) {
     // 状態管理
@@ -60,17 +53,19 @@ class _DateScroller extends State<DateScroller> {
     );
   }
 
+  // 初期設定
   @override
   void initState() {
     super.initState();
-    // フレームのレンダリング後にjumpToを実行
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dateNotifierRead = context.read<DateManagerNotifier>();
       final selectedDate = dateNotifierRead.selectedDate;
       final startDate =
           DateTime(selectedDate.year, selectedDate.month - 1, 1); // 選択日の前月初め
-      int todayIndex = getTodayIndex(startDate);
-      _controller.jumpTo(50.0 * todayIndex); // ここで正しい位置にスクロール
+      int jumpCount = selectedDate.difference(startDate).inDays;
+      _controller.jumpTo((jumpCount * 50) -
+          (3.3 * 50)); // 下記で定義している日にちのContainerの横幅 - 真ん中に持ってくるので3.3個分左にずらす
     });
   }
 }
@@ -85,8 +80,7 @@ class DateButton extends StatelessWidget {
     // 状態管理
     final dateNotifierRead = context.read<DateManagerNotifier>();
     final dateNotifierWatch = context.watch<DateManagerNotifier>();
-    // 選択されているかどうか
-    final isSelected = dateNotifierWatch.selectedDate == date;
+    final isSelected = dateNotifierWatch.selectedDate == date; // 選択した日付かどうか
 
     return GestureDetector(
         // タップ領域をpaddingなども含めるようにする
@@ -97,7 +91,8 @@ class DateButton extends StatelessWidget {
           dateNotifierRead.setDisplayedYearMonth(date);
         },
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            width: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(

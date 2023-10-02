@@ -10,10 +10,13 @@ final dateManagerProvider = ChangeNotifierProvider<DateManagerNotifier>(
 class DateManagerNotifier with ChangeNotifier {
   DateManager _dateManager;
 
+  // 初期化の際に、今日の日付を格納するが、now()を使用してしまうと時刻まで入ってしまい比較が不可能になるので年月日のみにして格納
   DateManagerNotifier()
       : _dateManager = DateManager(
-          selectedDate: DateTime.now(),
-          displayedYearMonth: DateTime.now(),
+          selectedDate: DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day),
+          displayedYearMonth: DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day),
         );
 
   DateTime get selectedDate => _dateManager.selectedDate;
