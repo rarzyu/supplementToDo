@@ -15,20 +15,12 @@ class DateManagerNotifier with ChangeNotifier {
       : _dateManager = DateManager(
           selectedDate: DateTime(
               DateTime.now().year, DateTime.now().month, DateTime.now().day),
-          displayedYearMonth: DateTime(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day),
         );
 
   DateTime get selectedDate => _dateManager.selectedDate;
-  DateTime get displayedYearMonth => _dateManager.displayedYearMonth;
 
   void setSelectedDate(DateTime date) {
     _dateManager.selectedDate = date;
-    notifyListeners();
-  }
-
-  void setDisplayedYearMonth(DateTime date) {
-    _dateManager.displayedYearMonth = DateTime(date.year, date.month);
     notifyListeners();
   }
 }

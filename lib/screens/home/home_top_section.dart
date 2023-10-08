@@ -90,8 +90,7 @@ class _YearMonthSelect extends State<YearMonthSelect> {
 
     // 状態管理から日付を取得
     dateTime = dateNotifierWatch.selectedDate;
-    yearMonth =
-        DateFormat('yyyy年M月').format(dateNotifierWatch.displayedYearMonth);
+    yearMonth = DateFormat('yyyy年M月').format(dateNotifierWatch.selectedDate);
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -113,9 +112,7 @@ class _YearMonthSelect extends State<YearMonthSelect> {
                 yearMonth = DateFormat('yyyy年M月').format(date);
 
                 //状態管理に渡す
-                dateNotifierRead.setDisplayedYearMonth(dateTime);
-
-                print(date);
+                dateNotifierRead.setSelectedDate(dateTime);
               });
             },
           );

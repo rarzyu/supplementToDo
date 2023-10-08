@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
+class DBHelper {
   // データベース名とバージョン
   static final _dbName = 'sapplement_to_do_app.db';
   static final _dbVersion = 1;
@@ -15,22 +15,21 @@ class DatabaseHelper {
   static final tasksTable = 't_tasks';
 
   // シングルトンインスタンス
-  // アプリケーション全体で1つのDatabaseHelperインスタンスのみが存在するようにするための設計
-  static DatabaseHelper? _instance;
+  // アプリケーション全体で1つのDBHelperインスタンスのみが存在するようにするための設計
+  static DBHelper? _instance;
   static late Database _database;
 
   // プライベートな名前付きコンストラクタ
   // シングルトンパターンを実装するために、外部からインスタンスを作成できないようにする
-  DatabaseHelper._privateConstructor();
+  DBHelper._privateConstructor();
 
   // インスタンスを返すゲッター
-  static DatabaseHelper get instance {
-    return _instance ??= DatabaseHelper._privateConstructor();
+  static DBHelper get instance {
+    return _instance ??= DBHelper._privateConstructor();
   }
 
   // データベースへの参照を返すゲッター
   Future<Database> get database async {
-    if (_database != null) return _database;
     _database = await _initDatabase();
     return _database;
   }
@@ -85,12 +84,28 @@ class DatabaseHelper {
     ''');
   }
 
-  /// CRUD操作
-  // Create
+  // create
+  Future<int> insert(String table, Map<String, dynamic> data) async {
+    final db = await database;
+    return await db.insert(table, data);
+  }
 
-  // Read
+  // read
+  Future<List<Map<String, dynamic>>> query(String table) async {
+    final db = await database;
+    return await db.query(table);
+  }
 
-  // Update
+  // update
+  Future<int> update(String table, Map<String, dynamic> data) async {
+    final db = await database;
+    return await db
+        .update(table, data, where: 'id = ?', whereArgs: [data['id']]);
+  }
 
-  // Delete
+  // delete
+  Future<int> delete(String table, int id) async {
+    final db = await database;
+    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
+  }
 }
