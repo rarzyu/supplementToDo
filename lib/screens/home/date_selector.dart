@@ -5,10 +5,10 @@ import 'package:supplement_to_do/config/constants/color.dart';
 
 import '../../providers/date_manager_notifier.dart';
 
-/// グローバル変数
-const double itemWidth = 50; // アイテム横幅
+///グローバル変数
+const double itemWidth = 50; //アイテム横幅
 
-/// セクション全体
+///セクション全体
 class DateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class DateSelector extends StatelessWidget {
   }
 }
 
-/// 日付スクロール部分
+///日付スクロール部分
 class DateScroller extends StatefulWidget {
   @override
   _DateScroller createState() => _DateScroller();
@@ -29,15 +29,15 @@ class _DateScroller extends State<DateScroller> {
 
   @override
   Widget build(BuildContext context) {
-    // 状態管理
+    //状態管理
     final dateNotifierWatch = context.watch<DateManagerNotifier>();
     final selectedDate = dateNotifierWatch.selectedDate;
-    // 前後1ヶ月だけスクロールで表示する
+    //前後1ヶ月だけスクロールで表示する
     final startDate =
-        DateTime(selectedDate.year, selectedDate.month - 1, 1); // 選択日の前月初め
+        DateTime(selectedDate.year, selectedDate.month - 1, 1); //選択日の前月初め
     final endDate =
-        DateTime(selectedDate.year, selectedDate.month + 2, 0); // 選択日の翌月末
-    final dayCount = endDate.difference(startDate).inDays; // 上記の差分の日数
+        DateTime(selectedDate.year, selectedDate.month + 2, 0); //選択日の翌月末
+    final dayCount = endDate.difference(startDate).inDays; //上記の差分の日数
 
     return Container(
       height: 70,
@@ -46,7 +46,7 @@ class _DateScroller extends State<DateScroller> {
         scrollDirection: Axis.horizontal,
         itemCount: dayCount,
         itemBuilder: (context, index) {
-          // 日付にindexを加算
+          //日付にindexを加算
           final date = startDate.add(Duration(days: index));
           return DateButton(
             date: date,
@@ -57,16 +57,16 @@ class _DateScroller extends State<DateScroller> {
     );
   }
 
-  // 初期設定
+  //初期設定
   @override
   void initState() {
     super.initState();
-    // 選択日を中央にスクロール
+    //選択日を中央にスクロール
     FunctionClass().CenterScroll(context, _controller, false);
   }
 }
 
-/// 日にちボタン部分
+///日にちボタン部分
 class DateButton extends StatelessWidget {
   final DateTime date;
   final ScrollController controller;
@@ -75,19 +75,19 @@ class DateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 状態管理
+    //状態管理
     final dateNotifierRead = context.read<DateManagerNotifier>();
     final dateNotifierWatch = context.watch<DateManagerNotifier>();
-    final isSelected = dateNotifierWatch.selectedDate == date; // 選択した日付かどうか
+    final isSelected = dateNotifierWatch.selectedDate == date; //選択した日付かどうか
 
     return GestureDetector(
-        // タップ領域をpaddingなども含めるようにする
+        //タップ領域をpaddingなども含めるようにする
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          // 日付をタップしたら、状態管理にその日付を格納
+          //日付をタップしたら、状態管理にその日付を格納
           dateNotifierRead.setSelectedDate(date);
 
-          // 選択日を中央にスクロール
+          //選択日を中央にスクロール
           FunctionClass().CenterScroll(context, controller, true);
         },
         child: Container(
@@ -106,7 +106,7 @@ class DateButton extends StatelessWidget {
             child: Center(
                 child: Column(
               children: [
-                // 日にち部分
+                //日にち部分
                 Text(
                   '${date.day}',
                   style: TextStyle(
@@ -117,7 +117,7 @@ class DateButton extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // 曜日部分
+                //曜日部分
                 Text(
                   DateFormat('E', 'ja_JP').format(date),
                   style: TextStyle(
@@ -133,22 +133,22 @@ class DateButton extends StatelessWidget {
   }
 }
 
-/// このウィジェットの関数群
+///このウィジェットの関数群
 class FunctionClass {
-  /// 選択日を中央付近にスクロールする
+  ///選択日を中央付近にスクロールする
   void CenterScroll(
       BuildContext context, ScrollController controller, bool isAnimation) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dateNotifierRead = context.read<DateManagerNotifier>();
       final selectedDate = dateNotifierRead.selectedDate;
       final startDate =
-          DateTime(selectedDate.year, selectedDate.month - 1, 1); // 選択日の前月初め
-      int jumpCount = selectedDate.difference(startDate).inDays; // スクロールするアイテム数
-      double jumpValue = jumpCount * itemWidth; // スクロールする量、アイテム数×1アイテムの幅
-      double centerAdjust = 3.4 * itemWidth; // 真ん中に調整するための補正、補正倍率×1アイテムの幅
+          DateTime(selectedDate.year, selectedDate.month - 1, 1); //選択日の前月初め
+      int jumpCount = selectedDate.difference(startDate).inDays; //スクロールするアイテム数
+      double jumpValue = jumpCount * itemWidth; //スクロールする量、アイテム数×1アイテムの幅
+      double centerAdjust = 3.4 * itemWidth; //真ん中に調整するための補正、補正倍率×1アイテムの幅
 
-      // スクロールする量-補正幅
-      // 引数のフラグで変化
+      //スクロールする量-補正幅
+      //引数のフラグで変化
       if (isAnimation) {
         controller.animateTo(jumpValue - centerAdjust,
             duration: Duration(milliseconds: 300), //移動するのに要する時間（ミリ秒）

@@ -1,5 +1,5 @@
-/// 画面最上位部分
-/// 年月選択と新規追加ボタンの部分
+///画面最上位部分
+///年月選択と新規追加ボタンの部分
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
@@ -9,7 +9,7 @@ import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
 import 'package:intl/intl.dart';
 
-/// セクション全体
+///セクション全体
 class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class TopSection extends StatelessWidget {
               padding: EdgeInsets.only(right: 9.0),
               child: FloatingActionButton(
                   backgroundColor: AppColors.baseObjectDarkBlue,
-                  // 角丸四角に変更
+                  //角丸四角に変更
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0))),
                   onPressed: () {
@@ -59,11 +59,11 @@ class YearMonthModel extends DatePickerModel {
 
   @override
   List<int> layoutProportions() {
-    return [1, 1, 0]; // ここで年月のみに指定
+    return [1, 1, 0]; //ここで年月のみに指定
   }
 }
 
-/// 年月選択ドラムロールとそのボタン
+///年月選択ドラムロールとそのボタン
 class YearMonthSelect extends StatefulWidget {
   @override
   _YearMonthSelect createState() => _YearMonthSelect();
@@ -72,7 +72,7 @@ class YearMonthSelect extends StatefulWidget {
 class _YearMonthSelect extends State<YearMonthSelect> {
   late String yearMonth;
   late DateTime dateTime;
-  final minDate = DateTime(DateTime.now().year - 2, 1, 1); // 最小は2年前の1月1日
+  final minDate = DateTime(DateTime.now().year - 2, 1, 1); //最小は2年前の1月1日
   final maxDate = DateTime(DateTime.now().year + 2, 12, 31); //　最大は2年後の12月31日
 
   @override
@@ -84,11 +84,11 @@ class _YearMonthSelect extends State<YearMonthSelect> {
 
   @override
   Widget build(BuildContext context) {
-    // 状態管理
+    //状態管理
     final dateNotifierRead = context.read<DateManagerNotifier>();
     final dateNotifierWatch = context.watch<DateManagerNotifier>();
 
-    // 状態管理から日付を取得
+    //状態管理から日付を取得
     dateTime = dateNotifierWatch.selectedDate;
     yearMonth = DateFormat('yyyy年M月').format(dateNotifierWatch.selectedDate);
 

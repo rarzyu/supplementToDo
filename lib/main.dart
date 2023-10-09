@@ -7,8 +7,8 @@ import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'screens/home/home_screen.dart';
 
 void main() {
-  // true:境界を見えるようにする
-  // debugPaintSizeEnabled = true;
+  //true:境界を見えるようにする
+  //debugPaintSizeEnabled = true;
 
   initializeDateFormatting('ja_JP').then((_) => runApp(
         ChangeNotifierProvider(
@@ -21,7 +21,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // ステータスバーの文字色を黒に
+    //ステータスバーの文字色を黒に
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
     return MaterialApp(
