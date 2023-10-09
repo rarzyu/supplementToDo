@@ -1,25 +1,26 @@
-import 'package:supplement_to_do/core/data/database/db_helper.dart';
-import '../dto/classification_dto.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
+import '../db_helper.dart';
 
 ///グローバル変数
-const String tableName = 'm_classification';
+const String tableName = 't_supplements';
 
 ///このクラスで使用している構造体
 ///
-///classificationQuery用
+///supplementsQueryOption用
 ///- conditions：where句のカラム、「カラム名 = ?」で記述
 ///- isAnds：Andかどうか、True=And、False=OR
 ///- conditionValues：where句の値
 ///- sortColumns：ソート条件のカラム名
 ///- isASC：昇順かどうか、True=ASC、False=DESC
-class ClassificationQueryOption {
+class SupplementsQueryOption {
   final List<String>? conditions;
   final List<bool>? isAnds;
   final List<dynamic>? conditionValues;
   final List<String>? sortColumns;
   final List<bool>? isASC;
 
-  ClassificationQueryOption({
+  SupplementsQueryOption({
     this.conditions,
     this.isAnds,
     this.conditionValues,
@@ -28,29 +29,28 @@ class ClassificationQueryOption {
   });
 }
 
-///m_classification 分類管理マスタのDBヘルパークラス
-class ClassificationDao {
+class SupplementsDao {
   final DBHelper dbHelper;
 
-  ClassificationDao(this.dbHelper);
+  SupplementsDao(this.dbHelper);
 
   ///INSERT
-  Future<int> insertClassification(ClassificationDto classification) async {
+  Future<int> insertSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
-    return await db.insert(tableName, classification.toMap());
+    return await db.insert(tableName, supplements.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   ///SELECT ALL
-  Future<List<ClassificationDto>> getClassificationAll() async {
+  Future<List<SupplementsDto>> getAllSupplements() async {
     final db = await dbHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName);
-    return List.generate(
-        maps.length, (i) => ClassificationDto.fromMap(maps[i]));
+    final List<Map<String, dynamic>> maps = await db.query('t_tasks');
+    return List.generate(maps.length, (i) => SupplementsDto.fromMap(maps[i]));
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> classificationQuery(
-      ClassificationQueryOption option) async {
+  Future<List<Map<String, dynamic>>> supplementsQuery(
+      SupplementsQueryOption option) async {
     final db = await dbHelper.database;
     String whereString = ''; //where句
     String orderByString = ''; //order by句
@@ -87,23 +87,15 @@ class ClassificationDao {
   }
 
   ///UPDATE
-  Future<int> updateClassification(ClassificationDto classification) async {
+  Future<int> updateSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
-    return await db.update(
-      tableName,
-      classification.toMap(),
-      where: 'id = ?',
-      whereArgs: [classification.id],
-    );
+    return await db.update(tableName, supplements.toMap(),
+        where: 'id = ?', whereArgs: [supplements.id]);
   }
 
   ///DELETE
-  Future<int> deleteClassification(int id) async {
+  Future<int> deleteSupplements(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(
-      tableName,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
   }
 }

@@ -1,25 +1,25 @@
-///m_classification 分類管理マスタ
-class ClassificationDto {
-  final int id; //ID
-  final String name; //分類名
-  final int deleted; //削除フラグ
-  final String createdDateTime; //作成日時
-  final String updatedDateTime; //更新日時
+///t_supplements サプリメントテーブル
+class SupplementsDto {
+  final int id;
+  final String name;
+  final int classificationId;
+  final String createdDateTime;
+  final String updatedDateTime;
 
-  ClassificationDto({
+  SupplementsDto({
     required this.id,
     required this.name,
-    required this.deleted,
+    required this.classificationId,
     required this.createdDateTime,
     required this.updatedDateTime,
   });
 
   //データベースのMapからDTOを作成
-  factory ClassificationDto.fromMap(Map<String, dynamic> map) {
-    return ClassificationDto(
+  factory SupplementsDto.fromMap(Map<String, dynamic> map) {
+    return SupplementsDto(
       id: map['id'],
       name: map['name'],
-      deleted: map['deleted'],
+      classificationId: map['classification_id'],
       createdDateTime: map['created_date_time'],
       updatedDateTime: map['updated_date_time'],
     );
@@ -30,7 +30,7 @@ class ClassificationDto {
     return {
       'id': id,
       'name': name,
-      'deleted': deleted,
+      'classification_id': classificationId,
       'created_date_time': createdDateTime,
       'updated_date_time': updatedDateTime,
     };

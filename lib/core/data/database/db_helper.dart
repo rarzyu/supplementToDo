@@ -11,7 +11,7 @@ class DBHelper {
 
   //テーブル名
   static final classificationMaster = 'm_classification';
-  static final sapplementsTable = 't_sapplements';
+  static final supplementsTable = 't_supplements';
   static final tasksTable = 't_tasks';
 
   //シングルトンインスタンス
@@ -57,7 +57,7 @@ class DBHelper {
     ''');
 
     await db.execute('''
-        CREATE TABLE $sapplementsTable (
+        CREATE TABLE $supplementsTable (
           "id"	INTEGER,
           "name"	TEXT,
           "classification_id"	INTEGER,
@@ -71,7 +71,7 @@ class DBHelper {
     await db.execute('''
         CREATE TABLE $tasksTable (
           "id"	INTEGER,
-          "sapplement_id"	INTEGER,
+          "supplement_id"	INTEGER,
           "scheduled_date"	TEXT,
           "scheduled_time"	TEXT,
           "details"	TEXT,
