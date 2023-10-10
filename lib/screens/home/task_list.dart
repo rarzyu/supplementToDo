@@ -15,7 +15,7 @@ class TaskList extends StatelessWidget {
 
     return Expanded(
       child: ListView.builder(
-          itemCount: 100,
+          itemCount: 1000,
           itemBuilder: (context, index) => ListItem(
                 index: index,
                 selectedDate: dateNotifierWatch.selectedDate,
@@ -41,18 +41,36 @@ class ListItem extends StatelessWidget {
           return AddEditScreen(index: index);
         }));
       },
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: TaskCheckBox(),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: AppColors.borderGray,
+              width: 1,
+            ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: TaskText(index: index, selectedDate: selectedDate),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //チェックボックス
+              SizedBox(
+                child: TaskCheckBox(),
+              ),
+              //タスク名
+              Expanded(
+                child: TaskText(index: index, selectedDate: selectedDate),
+              ),
+              //分類ラベル
+              Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: ClassificationBox(),
+              ),
+            ],
           ),
-          ClassificationBox(),
-        ],
+        ),
       ),
     );
   }
@@ -78,10 +96,10 @@ class TaskText extends StatelessWidget {
     final String viewDate = DateFormat('yyyy.M.d').format(selectedDate);
 
     return Text(
-      '$viewDate/index：$index',
+      'test：$viewDate/index：$index',
       style: TextStyle(
-        color: Colors.black87,
-        fontSize: 20.0,
+        color: AppColors.fontBlack,
+        fontSize: 18.0,
       ),
     );
   }

@@ -113,7 +113,7 @@ class DateButton extends StatelessWidget {
                     fontSize: 16,
                     color: isSelected
                         ? AppColors.baseObjectDarkBlue
-                        : Colors.black,
+                        : AppColors.fontBlackBorder,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -124,7 +124,7 @@ class DateButton extends StatelessWidget {
                     fontSize: 16,
                     color: isSelected
                         ? AppColors.baseObjectDarkBlue
-                        : Colors.black,
+                        : AppColors.fontBlackBorder,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

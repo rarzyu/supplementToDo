@@ -18,10 +18,12 @@ class TopSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          //年月選択ボタン
           Padding(
             padding: EdgeInsets.only(left: 9.0),
             child: YearMonthSelect(),
           ),
+          //新規追加ボタン
           Padding(
               padding: EdgeInsets.only(right: 9.0),
               child: FloatingActionButton(
@@ -94,8 +96,8 @@ class _YearMonthSelect extends State<YearMonthSelect> {
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.baseObjectDarkBlue,
-        ),
+            backgroundColor: AppColors.themeBackGray,
+            shadowColor: Colors.black),
         onPressed: () {
           DatePicker.showPicker(
             context,
@@ -117,12 +119,20 @@ class _YearMonthSelect extends State<YearMonthSelect> {
             },
           );
         },
-        child: Text(
-          yearMonth,
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Row(
+          children: [
+            Text(
+              yearMonth,
+              style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.fontBlackBorder),
+            ),
+            Icon(
+              Icons.arrow_drop_down_rounded,
+              color: AppColors.fontBlackBorder,
+            )
+          ],
         ));
   }
 }
