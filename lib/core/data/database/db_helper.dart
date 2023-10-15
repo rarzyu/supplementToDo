@@ -6,13 +6,14 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   //データベース名とバージョン
-  static final _dbName = 'sapplement_to_do_app.db';
-  static final _dbVersion = 1;
+  static const _dbName = 'sapplement_to_do_app.db';
+  static const _dbVersion = 1;
 
   //テーブル名
-  static final classificationMaster = 'm_classification';
-  static final supplementsTable = 't_supplements';
-  static final tasksTable = 't_tasks';
+  static const classificationMaster = 'm_classification';
+  static const supplementsTable = 't_supplements';
+  static const tasksTable = 't_tasks';
+  static const repeatTable = 't_repeats';
 
   //シングルトンインスタンス
   //アプリケーション全体で1つのDBHelperインスタンスのみが存在するようにするための設計
@@ -74,11 +75,25 @@ class DBHelper {
           "supplement_id"	INTEGER,
           "scheduled_date"	TEXT,
           "scheduled_time"	TEXT,
+          "repeat_id" INTEGER,
           "details"	TEXT,
           "completed"	INTEGER,
           "created_date_time"	TEXT,
           "updated_date_time"	TEXT,
           FOREIGN KEY("sapplement_id") REFERENCES "t_supplements"("id"),
+          FOREIGN KEY("repeat_id") REFERENCES "t_repeat"("id"),
+          PRIMARY KEY("id" AUTOINCREMENT)
+        )
+    ''');
+
+    await db.execute('''
+        CREATE TABLE $repeatTable (
+          "id"	INTEGER,
+          "repeat_code"	INTEGER,
+          "day_of_week"	TEXT,
+          "interval" INTEGER,
+          "created_date_time"	TEXT,
+          "updated_date_time"	TEXT,
           PRIMARY KEY("id" AUTOINCREMENT)
         )
     ''');

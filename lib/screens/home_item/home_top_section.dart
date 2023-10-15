@@ -6,7 +6,7 @@ import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
-import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
+import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import 'package:intl/intl.dart';
 
 ///セクション全体

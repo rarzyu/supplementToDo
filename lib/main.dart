@@ -4,7 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
-import 'screens/home/home_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   //true:境界を見えるようにする

@@ -7,31 +7,31 @@ const String tableName = 't_tasks';
 
 ///t_tasksのロジック部分
 class TasksRepository {
-  final SupplementsDao dbHelper = SupplementsDao(DBHelper.instance);
+  final TasksDao dbHelper = TasksDao(DBHelper.instance);
 
   ///INSERT
-  Future<int> addClassification(SupplementsDto tasks) async {
-    return await dbHelper.insertTask(tasks);
+  Future<int> addClassification(TasksDto tasks) async {
+    return await dbHelper.insertTasks(tasks);
   }
 
   ///SELECT ALL
-  Future<List<SupplementsDto>> fetchClassificationAll() async {
+  Future<List<TasksDto>> fetchClassificationAll() async {
     return await dbHelper.getAllTasks();
   }
 
   ///SELECT 条件指定
   Future<List<Map<String, dynamic>>> fetchClassificationQuery(
-      TaskQueryOption option) async {
-    return await dbHelper.taskQuery(option);
+      TasksQueryOption option) async {
+    return await dbHelper.tasksQuery(option);
   }
 
   ///UPDATE
-  Future<int> updateClassification(SupplementsDto tasks) async {
-    return await dbHelper.updateTask(tasks);
+  Future<int> updateClassification(TasksDto tasks) async {
+    return await dbHelper.updateTasks(tasks);
   }
 
   ///DELETE
   Future<int> removeClassification(int id) async {
-    return await dbHelper.deleteTask(id);
+    return await dbHelper.deleteTasks(id);
   }
 }

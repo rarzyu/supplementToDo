@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
-import 'package:supplement_to_do/screens/add_edit/add_edit_screen.dart';
+import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import '../../providers/date_manager_notifier.dart';
 
 ///タスク一覧セクション
