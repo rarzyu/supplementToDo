@@ -7,19 +7,19 @@ final dateManagerProvider = ChangeNotifierProvider<DateManagerNotifier>(
     create: (context) => DateManagerNotifier());
 
 class DateManagerNotifier with ChangeNotifier {
-  DateManager _dateManager;
+  DateManager dateManager;
 
   //初期化の際に、今日の日付を格納するが、now()を使用してしまうと時刻まで入ってしまい比較が不可能になるので年月日のみにして格納
   DateManagerNotifier()
-      : _dateManager = DateManager(
+      : dateManager = DateManager(
           selectedDate: DateTime(
               DateTime.now().year, DateTime.now().month, DateTime.now().day),
         );
 
-  DateTime get selectedDate => _dateManager.selectedDate;
+  DateTime get selectedDate => dateManager.selectedDate;
 
   void setSelectedDate(DateTime date) {
-    _dateManager.selectedDate = date;
+    dateManager.selectedDate = date;
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@
 class RepeatsDto {
   final int id; //ID
   final int repeatCode; //繰り返しコード
+  final String repeatTitle; //繰り返しのタイトル
   final String dayOfWeek; //選択した曜日
   final int interval; //繰り返し間隔（日数）
   final String createdDateTime; //作成日時
@@ -10,6 +11,7 @@ class RepeatsDto {
   RepeatsDto(
       {required this.id,
       required this.repeatCode,
+      required this.repeatTitle,
       required this.dayOfWeek,
       required this.interval,
       required this.createdDateTime,
@@ -20,6 +22,7 @@ class RepeatsDto {
     return RepeatsDto(
       id: map['id'],
       repeatCode: map['repeat_code'],
+      repeatTitle: map['repeat_title'],
       dayOfWeek: map['day_of_week'],
       interval: map['interval'],
       createdDateTime: map['created_date_time'],
@@ -32,6 +35,7 @@ class RepeatsDto {
     return {
       'id': id,
       'repeat_code': repeatCode,
+      'repeat_title': repeatTitle,
       'day_of_week': dayOfWeek,
       'interval': interval,
       'created_date_time': createdDateTime,

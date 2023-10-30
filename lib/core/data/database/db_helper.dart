@@ -64,7 +64,6 @@ class DBHelper {
           "classification_id"	INTEGER,
           "created_date_time"	TEXT,
           "updated_date_time"	TEXT,
-          FOREIGN KEY("classification_id") REFERENCES "m_classification"("id"),
           PRIMARY KEY("id" AUTOINCREMENT)
         )
     ''');
@@ -80,8 +79,6 @@ class DBHelper {
           "completed"	INTEGER,
           "created_date_time"	TEXT,
           "updated_date_time"	TEXT,
-          FOREIGN KEY("sapplement_id") REFERENCES "t_supplements"("id"),
-          FOREIGN KEY("repeat_id") REFERENCES "t_repeat"("id"),
           PRIMARY KEY("id" AUTOINCREMENT)
         )
     ''');
@@ -90,6 +87,7 @@ class DBHelper {
         CREATE TABLE $repeatTable (
           "id"	INTEGER,
           "repeat_code"	INTEGER,
+          "repeat_title" TEXT,
           "day_of_week"	TEXT,
           "interval" INTEGER,
           "created_date_time"	TEXT,

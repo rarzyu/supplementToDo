@@ -8,11 +8,14 @@ import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import 'package:intl/intl.dart';
+import '../../providers/edit_task_notifier.dart';
 
 ///セクション全体
 class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
+
     return Container(
       height: 70.0,
       child: Row(
@@ -32,9 +35,12 @@ class TopSection extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0))),
                   onPressed: () {
+                    //フラグを追加モードに
+                    editTaskNotifierRead.setEditModeFlg(false);
+
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return AddEditScreen(index: 0);
+                        return AddEditScreen();
                       }),
                     );
                   },

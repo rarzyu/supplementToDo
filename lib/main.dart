@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
+import 'providers/edit_task_notifier.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -24,11 +25,20 @@ class MyApp extends StatelessWidget {
     //ステータスバーの文字色を黒に
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
-    return MaterialApp(
-      home: HomeScreen(),
-      theme: ThemeData(
-        scaffoldBackgroundColor: AppColors.themeBackGray,
-      ),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<DateManagerNotifier>(
+            create: (context) => DateManagerNotifier(),
+          ),
+          ChangeNotifierProvider<EditTaskNotifier>(
+            create: (context) => EditTaskNotifier(),
+          ),
+        ],
+        child: MaterialApp(
+          home: HomeScreen(),
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.themeBackGray,
+          ),
+        ));
   }
 }
