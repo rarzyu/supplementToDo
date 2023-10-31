@@ -16,8 +16,12 @@ class DateManagerNotifier with ChangeNotifier {
               DateTime.now().year, DateTime.now().month, DateTime.now().day),
         );
 
+  //ゲッター
   DateTime get selectedDate => dateManager.selectedDate;
+  DateTime get minDate => dateManager.minDate;
+  DateTime get maxDate => dateManager.maxDate;
 
+  //セッター
   void setSelectedDate(DateTime date) {
     dateManager.selectedDate = date;
     notifyListeners();

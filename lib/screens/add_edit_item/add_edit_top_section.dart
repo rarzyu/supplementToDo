@@ -11,6 +11,7 @@ class AddEditTopSection extends StatelessWidget {
 
     return Container(
       height: 50,
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
         children: [
           IconButton(

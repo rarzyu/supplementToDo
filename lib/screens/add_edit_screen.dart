@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/date_manager_notifier.dart';
 import 'add_edit_item/add_edit_top_section.dart';
+import 'add_edit_item/scheduled_date_item.dart';
 
 class AddEditScreen extends StatelessWidget {
   @override
@@ -16,6 +17,7 @@ class AddEditScreen extends StatelessWidget {
           children: [
             //top部分
             AddEditTopSection(),
+            ScheduledDate(),
             Text('日付：$selectedDate'),
           ],
         ),
