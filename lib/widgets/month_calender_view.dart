@@ -27,7 +27,7 @@ class _CalendarViewState extends State<CalendarView> {
       calendarFormat: _calendarFormat,
       locale: 'ja_JP',
       availableCalendarFormats: const {
-        CalendarFormat.month: 'Month',
+        CalendarFormat.month: 'Month', //表示形式を月表示のみに
       },
 
       //以下アクション
