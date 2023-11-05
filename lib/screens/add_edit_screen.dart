@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supplement_to_do/screens/add_edit_item/repeat_item.dart';
 import '../providers/date_manager_notifier.dart';
 import 'add_edit_item/add_edit_top_section.dart';
 import 'add_edit_item/scheduled_date_item.dart';
@@ -20,6 +21,7 @@ class AddEditScreen extends StatelessWidget {
             AddEditTopSection(),
             ScheduledDate(),
             SheduledTime(),
+            Repeat(),
             Text('日付：$selectedDate'),
           ],
         ),

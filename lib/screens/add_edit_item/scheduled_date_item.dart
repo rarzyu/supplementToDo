@@ -3,36 +3,24 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
+import 'package:supplement_to_do/screens/add_edit_item/add_edit_section_title.dart';
 import 'package:supplement_to_do/widgets/month_calender_view.dart';
-import '../../providers/edit_task_notifier.dart';
 
 ///服用予定日
 class ScheduledDate extends StatelessWidget {
+  final Icon icon =
+      Icon(Icons.calendar_month_outlined, color: AppColors.fontBlackBorder);
+  final String title = '服用予定日';
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          ScheduledDateTitle(),
+          AddEditSectionTitle(icon: icon, title: title),
           Center(
             child: ScheduledDateSelecter(),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-///タイトル部分
-class ScheduledDateTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.borderGray,
-      child: Row(
-        children: [
-          Icon(Icons.calendar_month_outlined, color: AppColors.fontBlackBorder),
-          Text('服用予定日')
         ],
       ),
     );

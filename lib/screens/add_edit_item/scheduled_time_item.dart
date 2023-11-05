@@ -1,35 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:supplement_to_do/screens/add_edit_item/add_edit_section_title.dart';
 import '../../config/constants/color.dart';
 import '../../providers/edit_task_notifier.dart';
-import '../../widgets/month_calender_view.dart';
 
 ///服用予定時刻
 class SheduledTime extends StatelessWidget {
+  final Icon icon =
+      Icon(Icons.watch_later_outlined, color: AppColors.fontBlackBorder);
+  final String title = '服用予定時刻';
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          ScheduledTimeTitle(),
+          AddEditSectionTitle(icon: icon, title: title),
           ScheduledTimeSelector(),
-        ],
-      ),
-    );
-  }
-}
-
-///タイトル部分
-class ScheduledTimeTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.borderGray,
-      child: Row(
-        children: [
-          Icon(Icons.watch_later_outlined, color: AppColors.fontBlackBorder),
-          Text('服用予定時刻')
         ],
       ),
     );
