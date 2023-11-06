@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:supplement_to_do/models/classification_model.dart';
 import 'package:supplement_to_do/providers/classification_list_notifier.dart';
 import 'package:supplement_to_do/providers/edit_task_notifier.dart';
-
 import '../../config/constants/color.dart';
 import 'add_edit_section_title.dart';
 
@@ -79,6 +78,8 @@ class ClassificationSelectModal {
                                 BorderRadius.all(Radius.circular(8.0))),
                         onPressed: () {
                           //新規追加ダイアログを開く
+                          AddEditModal(isEditMode: false, index: 0)
+                              .showAddEditModal(context);
                         },
                         child: Icon(Icons.add)),
                   ),
@@ -104,7 +105,7 @@ class ClassificationList extends StatelessWidget {
         fontSize: 14.0);
 
     return Container(
-      height: classifications.isNotEmpty
+      height: classifications.length > 9 //アイテム数が10を超える場合は高さを固定化する
           ? MediaQuery.of(context).size.height * 0.6
           : null,
       //アイテム数が0の場合、固定文字を表示
@@ -144,6 +145,7 @@ class ClassificationListItem extends StatelessWidget {
         context.watch<ClassificationListNotifier>();
     ClassificationModel classificationModel =
         classificationListNotifierWatch.classifications[index];
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
     return GestureDetector(
       //タップ領域をpaddingなども含めるようにする
@@ -151,6 +153,9 @@ class ClassificationListItem extends StatelessWidget {
 
       onTap: () {
         //リストタップ時の処理
+        editTaskNotifierRead.setClassificationId(classificationModel.id);
+        editTaskNotifierRead.setClassificationName(classificationModel.name);
+        Navigator.pop(context);
       },
       child: ListTile(
         title: Text(classificationModel.name),
@@ -161,11 +166,20 @@ class ClassificationListItem extends StatelessWidget {
               icon: Icon(Icons.edit),
               onPressed: () {
                 //編集モーダルを開く
+                AddEditModal(isEditMode: true, index: index)
+                    .showAddEditModal(context);
               },
             ),
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
+                //選択中のアイテムが削除された場合、こちらも削除する
+                if (classificationModel.id ==
+                    editTaskNotifierRead.classificationId) {
+                  editTaskNotifierRead.setClassificationId(0);
+                  editTaskNotifierRead.setClassificationName('');
+                }
+
                 //削除処理
                 classificationListNotifierWatch
                     .removeClassification(classificationModel.id);
@@ -181,10 +195,23 @@ class ClassificationListItem extends StatelessWidget {
 ///新規・編集モーダル
 class AddEditModal {
   final bool isEditMode;
-  AddEditModal({required this.isEditMode});
+  final int index;
+  AddEditModal({required this.isEditMode, required this.index});
 
   void showAddEditModal(BuildContext context) {
     TextEditingController _controller = TextEditingController();
+
+    //状態管理
+    final classificationListNotifierRead =
+        context.read<ClassificationListNotifier>();
+    ClassificationModel classification;
+    if (isEditMode) {
+      classification = classificationListNotifierRead.classifications[index];
+    } else {
+      int dummy = DateTime.timestamp().hashCode;
+      classification = ClassificationModel(
+          id: dummy, name: '', deleted: false); //idはダミー（タイムスタンプのハッシュ値）
+    }
 
     showDialog(
       context: context,
@@ -196,11 +223,23 @@ class AddEditModal {
               TextButton(
                   onPressed: () {
                     //キャンセル処理
+                    Navigator.pop(context);
                   },
                   child: Text('キャンセル')),
               TextButton(
                   onPressed: () {
-                    //更新・追加処理
+                    if (isEditMode) {
+                      //編集処理
+                      classification.name = _controller.text;
+                      classificationListNotifierRead
+                          .updateClassification(classification);
+                    } else {
+                      //追加処理
+                      classification.name = _controller.text;
+                      classificationListNotifierRead
+                          .addClassification(classification);
+                    }
+                    Navigator.pop(context);
                   },
                   child: Text(isEditMode ? '更新' : '追加')),
             ]);
