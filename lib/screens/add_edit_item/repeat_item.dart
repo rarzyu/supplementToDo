@@ -57,7 +57,6 @@ class RepeatSelectModal {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           child: Container(
-            // height: MediaQuery.of(context).size.height * 0.40,
             padding: EdgeInsets.all(10.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,

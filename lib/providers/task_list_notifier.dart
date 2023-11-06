@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/models/task_list_model.dart';
-
 import '../models/base_task_model.dart';
 
 ///タスクリストModel用Provider
