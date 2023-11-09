@@ -64,9 +64,9 @@ class _TaskTextBoxState extends State<TaskTextBox> {
 
     return Container(
       padding: EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
-      color: AppColors.themeBackGray, //背景色はベースの背景色と同じ
       child: Expanded(
         child: TextField(
+          textInputAction: TextInputAction.done,
           decoration: InputDecoration(
             hintText: 'ここにタイトルを入力', //プレースホルダー
             border: InputBorder.none, //ボーダーを消去
