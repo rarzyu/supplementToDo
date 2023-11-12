@@ -8,7 +8,7 @@ import '../../providers/edit_task_notifier.dart';
 ///服用予定時刻
 class SheduledTime extends StatelessWidget {
   final Icon icon =
-      Icon(Icons.watch_later_outlined, color: AppColors.fontBlackBorder);
+      Icon(Icons.watch_later_outlined, color: AppColors.fontBlackBold);
   final String title = '服用予定時刻';
 
   @override
@@ -32,18 +32,23 @@ class ScheduledTimeSelector extends StatelessWidget {
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.themeBackGray, shadowColor: Colors.black),
-      onPressed: () {
-        _selectTime(context, editTaskNotifierWatch, editTaskNotifierRead);
-      },
-      child: Text(
-        DateFormat('H時mm分').format(editTaskNotifierWatch.scheduleDateTime),
-        style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            color: AppColors.fontBlackBorder),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 3.0),
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.themeBackGray,
+            shadowColor: Colors.black),
+        onPressed: () {
+          _selectTime(context, editTaskNotifierWatch, editTaskNotifierRead);
+        },
+        child: Text(
+          DateFormat('H時mm分').format(editTaskNotifierWatch.scheduleDateTime),
+          style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: AppColors.fontBlackBold),
+        ),
       ),
     );
   }

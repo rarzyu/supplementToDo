@@ -132,11 +132,11 @@ class _YearMonthSelect extends State<YearMonthSelect> {
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.fontBlackBorder),
+                  color: AppColors.fontBlackBold),
             ),
             Icon(
               Icons.arrow_drop_down_rounded,
-              color: AppColors.fontBlackBorder,
+              color: AppColors.fontBlackBold,
             )
           ],
         ));

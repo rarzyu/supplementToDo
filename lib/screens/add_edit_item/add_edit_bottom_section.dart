@@ -12,8 +12,8 @@ class AddEditBottom extends StatelessWidget {
     bool isEditMode = editTaskNotifierWatch.isEditMode;
 
     return Container(
-      color: AppColors.borderGray,
-      height: kBottomNavigationBarHeight * 1.5, //規定のボトムバーの高さ
+      color: AppColors.sectionTitleLightGray,
+      height: kBottomNavigationBarHeight * 1.3, //規定のボトムバーの高さ
       width: double.infinity,
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: 20.0),
@@ -43,7 +43,7 @@ class AddEditBottom extends StatelessWidget {
           '完了',
           style: TextStyle(
               color: AppColors.baseObjectDarkBlue,
-              fontSize: 20.0,
+              fontSize: 22.0,
               fontWeight: FontWeight.bold),
         ),
       ),

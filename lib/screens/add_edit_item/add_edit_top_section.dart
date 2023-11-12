@@ -12,52 +12,84 @@ class AddEditTopSection extends StatelessWidget {
     bool isEditMode = editTaskNotifierWatch.isEditMode;
 
     return Container(
-      height: 50,
+      height: kBottomNavigationBarHeight,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
         children: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(Icons.arrow_back),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: AppColors.fontBlackBold,
+              ),
+            ),
           ),
-          Text(
-            isEditMode ? "タスクの編集" : "タスクの追加",
+          Expanded(
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                isEditMode ? "タスクの編集" : "タスクの追加",
+                style: const TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.fontBlackBold,
+                ),
+              ),
+            ),
           ),
-          isEditMode
-              ? TextButton(
-                  onPressed: () {
-                    ///TODO
-                    ///削除ボタンの処理
-                    ///このトリガーでDBから削除する
-                    print('delete');
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Text('削除しました'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .popUntil((route) => route.isFirst);
-                                  },
-                                  child: Text('OK'))
-                            ],
-                          );
-                        });
-                  },
-                  child: Text(
-                    '削除',
-                    style: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold),
-                  ))
-              : Container(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: isEditMode
+                ? AddEditTopDeletButton()
+                : Container(
+                    width: 65.0,
+                  ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+///削除ボタン
+class AddEditTopDeletButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 65.0,
+      child: TextButton(
+          onPressed: () {
+            ///TODO
+            ///削除ボタンの処理
+            ///このトリガーでDBから削除する
+            print('delete');
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Text('削除しました'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                          },
+                          child: Text('OK'))
+                    ],
+                  );
+                });
+          },
+          child: Text(
+            '削除',
+            style: TextStyle(
+                color: AppColors.fontRedButton,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold),
+          )),
     );
   }
 }

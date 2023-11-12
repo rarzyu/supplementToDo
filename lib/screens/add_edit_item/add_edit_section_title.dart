@@ -14,11 +14,21 @@ class AddEditSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.borderGray,
+      color: AppColors.sectionTitleLightGray,
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
       child: Row(
         children: [
           icon,
-          Text(title),
+          SizedBox(
+            width: 8.0,
+          ),
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: AppColors.fontBlackBold),
+          ),
         ],
       ),
     );

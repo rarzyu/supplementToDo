@@ -7,7 +7,7 @@ import 'add_edit_section_title.dart';
 
 ///繰り返し選択
 class Repeat extends StatelessWidget {
-  final Icon icon = Icon(Icons.repeat, color: AppColors.fontBlackBorder);
+  final Icon icon = Icon(Icons.repeat, color: AppColors.fontBlackBold);
   final String title = '繰り返し';
 
   @override
@@ -30,18 +30,23 @@ class RepeatSelectButton extends StatelessWidget {
     //状態管理
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.themeBackGray, shadowColor: Colors.black),
-      onPressed: () => RepeatSelectModal().showCustomModal(context),
-      child: Text(
-        editTaskNotifierWatch.repeatTitle == ''
-            ? '繰り返しを設定'
-            : editTaskNotifierWatch.repeatTitle,
-        style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            color: AppColors.fontBlackBorder),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 3.0),
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.themeBackGray,
+            shadowColor: Colors.black),
+        onPressed: () => RepeatSelectModal().showCustomModal(context),
+        child: Text(
+          editTaskNotifierWatch.repeatTitle == ''
+              ? '繰り返しを設定'
+              : editTaskNotifierWatch.repeatTitle,
+          style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: AppColors.fontBlackBold),
+        ),
       ),
     );
   }
@@ -55,7 +60,7 @@ class RepeatSelectModal {
       builder: (BuildContext context) {
         return Dialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           child: Container(
             padding: EdgeInsets.all(10.0),
             child: Column(
@@ -106,18 +111,17 @@ class RepeatModalTab extends StatelessWidget {
               dividerColor: AppColors.borderGray,
               labelColor: AppColors.baseObjectDarkBlue,
               //選択されていないタブのテキスト色
-              unselectedLabelColor: AppColors.fontBlack,
+              unselectedLabelColor: AppColors.fontBlackBold,
               // インジケーターの色
               indicatorColor: AppColors.baseObjectDarkBlue,
               tabs: [
                 Tab(text: '毎日'),
-                Tab(text: '毎週◯曜日'),
-                Tab(text: '◯日ごと'),
+                Tab(text: '曜日ごと'),
+                Tab(text: '日数ごと'),
               ],
             ),
             Container(
-              // コンテンツの高さを制限するためのコンテナ
-              height: 200.0, // この高さは必要に応じて調整します
+              height: MediaQuery.of(context).size.height * 0.3,
               child: TabBarView(
                 children: [
                   IntrinsicHeight(child: Text('毎日の内容')),

@@ -12,8 +12,7 @@ class Details extends StatelessWidget {
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     String initDetail = editTaskNotifierWatch.detail;
 
-    final Icon icon =
-        Icon(Icons.notes_rounded, color: AppColors.fontBlackBorder);
+    final Icon icon = Icon(Icons.notes_rounded, color: AppColors.fontBlackBold);
     final String title = '詳細';
 
     return Container(
@@ -64,8 +63,8 @@ class _DetailTextBoxState extends State<DetailTextBox> {
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
     return Container(
-      padding: EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
-      height: MediaQuery.of(context).size.height * 0.3, //高さは端末の30%に固定
+      padding: EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
+      height: MediaQuery.of(context).size.height * 0.25,
       child: Expanded(
         child: TextField(
           keyboardType: TextInputType.multiline,

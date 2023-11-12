@@ -8,7 +8,7 @@ import 'add_edit_section_title.dart';
 
 ///分類選択
 class Classification extends StatelessWidget {
-  final Icon icon = Icon(Icons.label_outline, color: AppColors.fontBlackBorder);
+  final Icon icon = Icon(Icons.label_outline, color: AppColors.fontBlackBold);
   final String title = '分類';
 
   @override
@@ -32,16 +32,21 @@ class ClassificationSelectButton extends StatelessWidget {
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     String classificationName = editTaskNotifierWatch.classificationName;
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.themeBackGray, shadowColor: Colors.black),
-      onPressed: () => ClassificationSelectModal().showCustomModal(context),
-      child: Text(
-        classificationName == '' ? '分類を選択' : classificationName,
-        style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            color: AppColors.fontBlackBorder),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 3.0),
+      width: MediaQuery.of(context).size.width * 0.7,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.themeBackGray,
+            shadowColor: Colors.black),
+        onPressed: () => ClassificationSelectModal().showCustomModal(context),
+        child: Text(
+          classificationName == '' ? '分類を選択' : classificationName,
+          style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: AppColors.fontBlackBold),
+        ),
       ),
     );
   }
@@ -101,7 +106,7 @@ class ClassificationList extends StatelessWidget {
     List classifications = classificationListNotifierWatch.classifications;
     TextStyle style = TextStyle(
         fontWeight: FontWeight.bold,
-        color: AppColors.fontBlack,
+        color: AppColors.fontBlackBold,
         fontSize: 14.0);
 
     return Container(
@@ -217,7 +222,7 @@ class AddEditModal {
       context: context,
       builder: (context) {
         return AlertDialog(
-            title: Text('タスク名を入力'),
+            title: Text('分類名を入力'),
             content: TextField(controller: _controller),
             actions: [
               TextButton(

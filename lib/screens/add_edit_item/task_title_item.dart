@@ -12,17 +12,14 @@ class TaskTitle extends StatelessWidget {
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     String initTitle = editTaskNotifierWatch.supplementName;
 
-    final Icon icon =
-        Icon(Icons.notes_rounded, color: AppColors.fontBlackBorder);
+    final Icon icon = Icon(Icons.notes_rounded, color: AppColors.fontBlackBold);
     final String title = 'タイトル';
 
     return Container(
       child: Column(
         children: [
           AddEditSectionTitle(icon: icon, title: title),
-          Center(
-            child: TaskTextBox(initTitle: initTitle),
-          ),
+          TaskTextBox(initTitle: initTitle),
         ],
       ),
     );
@@ -63,7 +60,7 @@ class _TaskTextBoxState extends State<TaskTextBox> {
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
     return Container(
-      padding: EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
+      padding: EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
       child: Expanded(
         child: TextField(
           textInputAction: TextInputAction.done,
