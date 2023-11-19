@@ -104,8 +104,32 @@ class EditTaskNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void setDayOfWeek(String weekday) {
+    editTaskModel.dayOfWeek = weekday;
+    notifyListeners();
+  }
+
   void setInterval(int interval) {
     editTaskModel.interval = interval;
     notifyListeners();
+  }
+
+  ///メソッド
+  void resetAll() {
+    editTaskModel = EditTaskModel(
+        isEditMode: false,
+        taskId: 0,
+        supplementId: 0,
+        supplementName: '',
+        classificationId: 0,
+        classificationName: '',
+        scheduledDateTime: DateTime.now(),
+        completed: false,
+        detail: '',
+        repeatId: 0,
+        repeatCode: 0,
+        repeatTitle: '',
+        dayOfWeek: '',
+        interval: 0);
   }
 }

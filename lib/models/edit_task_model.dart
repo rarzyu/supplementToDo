@@ -1,6 +1,6 @@
 import 'package:supplement_to_do/models/base_task_model.dart';
 
-///編集用のタスクModel
+///追加・編集用のタスクModel
 class EditTaskModel extends BaseTaskModel {
   ///編集モードかどうか
   ///True=編集／False=追加

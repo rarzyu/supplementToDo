@@ -26,6 +26,7 @@ class _CalendarViewState extends State<CalendarView> {
       focusedDay: forcusDate,
       calendarFormat: _calendarFormat,
       locale: 'ja_JP',
+      daysOfWeekHeight: 24.0,
       availableCalendarFormats: const {
         CalendarFormat.month: 'Month', //表示形式を月表示のみに
       },
