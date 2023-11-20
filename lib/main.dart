@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/classification_list_notifier.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
+import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'providers/edit_task_notifier.dart';
 import 'screens/home_screen.dart';
 
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<ClassificationListNotifier>(
             create: (context) => ClassificationListNotifier(),
+          ),
+          ChangeNotifierProvider<TaskListNotifier>(
+            create: (context) => TaskListNotifier(),
           ),
         ],
         child: MaterialApp(

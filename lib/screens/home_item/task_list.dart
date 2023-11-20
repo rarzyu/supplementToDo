@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/edit_task_notifier.dart';
+import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import '../../providers/date_manager_notifier.dart';
 
@@ -11,12 +12,27 @@ import '../../providers/date_manager_notifier.dart';
 class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //状態管理
+    final taskListNotifierWatch = context.watch<TaskListNotifier>();
+    List taskList = taskListNotifierWatch.taskListModel.taskList;
+
     return Expanded(
-      child: ListView.builder(
-          itemCount: 1000,
-          itemBuilder: (context, index) => ListItem(
-                index: index,
-              )),
+      child: taskList.length == 0
+          ? Center(
+              child: Text(
+                'データがありません',
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.fontBlackBold,
+                ),
+              ),
+            )
+          : ListView.builder(
+              itemCount: taskList.length,
+              itemBuilder: (context, index) => ListItem(
+                    index: index,
+                  )),
     );
   }
 }
