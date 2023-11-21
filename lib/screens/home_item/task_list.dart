@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
+import 'package:supplement_to_do/models/base_task_model.dart';
 import 'package:supplement_to_do/providers/edit_task_notifier.dart';
 import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
-import '../../providers/date_manager_notifier.dart';
 
 ///タスク一覧セクション
 ///セクション全体
@@ -13,7 +12,8 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //状態管理
-    final taskListNotifierWatch = context.watch<TaskListNotifier>();
+    final taskListNotifierRead = context.read<TaskListNotifier>(); //更新用
+    final taskListNotifierWatch = context.watch<TaskListNotifier>(); //読み取り用
     List taskList = taskListNotifierWatch.taskListModel.taskList;
 
     return Expanded(
@@ -32,6 +32,8 @@ class TaskList extends StatelessWidget {
               itemCount: taskList.length,
               itemBuilder: (context, index) => ListItem(
                     index: index,
+                    taskModel: taskList[index],
+                    taskListNotifierRead: taskListNotifierRead,
                   )),
     );
   }
@@ -40,15 +42,17 @@ class TaskList extends StatelessWidget {
 ///リストのアイテム
 class ListItem extends StatelessWidget {
   final int index;
-  const ListItem({Key? key, required this.index}) : super(key: key);
+  final BaseTaskModel taskModel;
+  final TaskListNotifier taskListNotifierRead;
+  const ListItem(
+      {required this.index,
+      required this.taskModel,
+      required this.taskListNotifierRead});
 
   @override
   Widget build(BuildContext context) {
     //状態管理
-    final dateNotifierWatch = context.watch<DateManagerNotifier>();
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
-
-    DateTime selectedDate = dateNotifierWatch.selectedDate;
 
     return GestureDetector(
       //タップ領域をpaddingなども含めるようにする
@@ -82,12 +86,12 @@ class ListItem extends StatelessWidget {
               ),
               //タスク名
               Expanded(
-                child: TaskText(index: index, selectedDate: selectedDate),
+                child: TaskTitle(),
               ),
               //分類ラベル
               Padding(
                 padding: EdgeInsets.only(left: 10.0),
-                child: ClassificationBox(),
+                child: ClassificationLabel(),
               ),
             ],
           ),
@@ -95,41 +99,30 @@ class ListItem extends StatelessWidget {
       ),
     );
   }
-}
 
-///チェックボックス用
-class TaskCheckBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(value: true, onChanged: (bool? value) {});
+  ///チェックボックス
+  Checkbox TaskCheckBox() {
+    return Checkbox(
+        value: taskModel.completed,
+        onChanged: (bool? value) {
+          taskModel.completed = value ?? false;
+          taskListNotifierRead.updateTask(taskModel);
+        });
   }
-}
 
-///タスク名用
-class TaskText extends StatelessWidget {
-  final int index;
-  final DateTime selectedDate;
-  const TaskText({Key? key, required this.index, required this.selectedDate})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final String viewDate = DateFormat('yyyy.M.d').format(selectedDate);
-
+  ///タスクタイトル
+  Text TaskTitle() {
     return Text(
-      'test：$viewDate/index：$index',
+      taskModel.supplementName,
       style: TextStyle(
         color: AppColors.fontBlack,
         fontSize: 18.0,
       ),
     );
   }
-}
 
-///分類ラベル用
-class ClassificationBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  ///分類ラベル
+  Container ClassificationLabel() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       decoration: BoxDecoration(
@@ -137,7 +130,7 @@ class ClassificationBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        'サプリメント',
+        taskModel.classificationName,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

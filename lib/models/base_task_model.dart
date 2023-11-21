@@ -7,6 +7,7 @@ class BaseTaskModel {
   int supplementId;
 
   ///サプリメント名
+  ///つまり、タスクタイトル
   String supplementName;
 
   ///分類ID
