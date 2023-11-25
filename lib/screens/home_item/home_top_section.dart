@@ -14,8 +14,6 @@ import '../../providers/edit_task_notifier.dart';
 class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final editTaskNotifierRead = context.read<EditTaskNotifier>();
-
     return Container(
       height: 70.0,
       child: Row(
@@ -27,24 +25,7 @@ class TopSection extends StatelessWidget {
             child: YearMonthSelect(),
           ),
           //新規追加ボタン
-          Padding(
-              padding: EdgeInsets.only(right: 9.0),
-              child: FloatingActionButton(
-                  backgroundColor: AppColors.baseObjectDarkBlue,
-                  //角丸四角に変更
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                  onPressed: () {
-                    //フラグを追加モードに
-                    editTaskNotifierRead.setEditModeFlg(false);
-
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return AddEditScreen();
-                      }),
-                    );
-                  },
-                  child: Icon(Icons.add)))
+          Padding(padding: EdgeInsets.only(right: 9.0), child: TaskAddButton())
         ],
       ),
     );
@@ -140,5 +121,32 @@ class _YearMonthSelect extends State<YearMonthSelect> {
             )
           ],
         ));
+  }
+}
+
+///新規追加ボタン
+class TaskAddButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //状態管理
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
+
+    return FloatingActionButton(
+        backgroundColor: AppColors.baseObjectDarkBlue,
+        //角丸四角に変更
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        onPressed: () {
+          //modelを初期化する
+          //フラグもfalseがセットされるので追加モードになる
+          editTaskNotifierRead.resetAll();
+
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return AddEditScreen();
+            }),
+          );
+        },
+        child: Icon(Icons.add));
   }
 }

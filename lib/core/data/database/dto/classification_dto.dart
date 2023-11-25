@@ -1,3 +1,5 @@
+import 'package:supplement_to_do/config/constants/db/classification_master_constants.dart';
+
 ///m_classification 分類管理マスタ
 class ClassificationDto {
   final int id; //ID
@@ -17,22 +19,22 @@ class ClassificationDto {
   //データベースのMapからDTOを作成
   factory ClassificationDto.fromMap(Map<String, dynamic> map) {
     return ClassificationDto(
-      id: map['id'],
-      name: map['name'],
-      deleted: map['deleted'],
-      createdDateTime: map['created_date_time'],
-      updatedDateTime: map['updated_date_time'],
+      id: map[ClassificationMasterConstants.id],
+      name: map[ClassificationMasterConstants.name],
+      deleted: map[ClassificationMasterConstants.deleted],
+      createdDateTime: map[ClassificationMasterConstants.createdDateTime],
+      updatedDateTime: map[ClassificationMasterConstants.updatedDateTime],
     );
   }
 
   //DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
-      'deleted': deleted,
-      'created_date_time': createdDateTime,
-      'updated_date_time': updatedDateTime,
+      ClassificationMasterConstants.id: id,
+      ClassificationMasterConstants.name: name,
+      ClassificationMasterConstants.deleted: deleted,
+      ClassificationMasterConstants.createdDateTime: createdDateTime,
+      ClassificationMasterConstants.updatedDateTime: updatedDateTime,
     };
   }
 }

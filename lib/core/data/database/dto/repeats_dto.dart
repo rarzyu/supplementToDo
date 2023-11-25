@@ -1,3 +1,5 @@
+import 'package:supplement_to_do/config/constants/db/repeats_table_constants.dart';
+
 ///t_repeat 繰り返しテーブル
 class RepeatsDto {
   final int id; //ID
@@ -20,26 +22,26 @@ class RepeatsDto {
   // データベースのMapからDTOを作成
   factory RepeatsDto.fromMap(Map<String, dynamic> map) {
     return RepeatsDto(
-      id: map['id'],
-      repeatCode: map['repeat_code'],
-      repeatTitle: map['repeat_title'],
-      dayOfWeek: map['day_of_week'],
-      interval: map['interval'],
-      createdDateTime: map['created_date_time'],
-      updatedDateTime: map['updated_date_time'],
+      id: map[RepeatsTableConstants.id],
+      repeatCode: map[RepeatsTableConstants.repeatCode],
+      repeatTitle: map[RepeatsTableConstants.repeatTitle],
+      dayOfWeek: map[RepeatsTableConstants.dayOfWeek],
+      interval: map[RepeatsTableConstants.interval],
+      createdDateTime: map[RepeatsTableConstants.createdDateTime],
+      updatedDateTime: map[RepeatsTableConstants.updatedDateTime],
     );
   }
 
   // DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'repeat_code': repeatCode,
-      'repeat_title': repeatTitle,
-      'day_of_week': dayOfWeek,
-      'interval': interval,
-      'created_date_time': createdDateTime,
-      'updated_date_time': updatedDateTime,
+      RepeatsTableConstants.id: id,
+      RepeatsTableConstants.repeatCode: repeatCode,
+      RepeatsTableConstants.repeatTitle: repeatTitle,
+      RepeatsTableConstants.dayOfWeek: dayOfWeek,
+      RepeatsTableConstants.interval: interval,
+      RepeatsTableConstants.createdDateTime: createdDateTime,
+      RepeatsTableConstants.updatedDateTime: updatedDateTime,
     };
   }
 }

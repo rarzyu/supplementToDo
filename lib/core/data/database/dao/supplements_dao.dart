@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:supplement_to_do/config/constants/db/supplements_table_constants.dart';
 import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
 import '../db_helper.dart';
 
@@ -90,12 +91,14 @@ class SupplementsDao {
   Future<int> updateSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
     return await db.update(tableName, supplements.toMap(),
-        where: 'id = ?', whereArgs: [supplements.id]);
+        where: SupplementsTableConstants.id + ' = ?',
+        whereArgs: [supplements.id]);
   }
 
   ///DELETE
   Future<int> deleteSupplements(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    return await db.delete(tableName,
+        where: SupplementsTableConstants.id + ' = ?', whereArgs: [id]);
   }
 }

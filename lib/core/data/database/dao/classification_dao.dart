@@ -1,3 +1,4 @@
+import 'package:supplement_to_do/config/constants/db/classification_master_constants.dart';
 import 'package:supplement_to_do/core/data/database/db_helper.dart';
 import '../dto/classification_dto.dart';
 
@@ -92,7 +93,7 @@ class ClassificationDao {
     return await db.update(
       tableName,
       classification.toMap(),
-      where: 'id = ?',
+      where: ClassificationMasterConstants.id + ' = ?',
       whereArgs: [classification.id],
     );
   }
@@ -102,7 +103,7 @@ class ClassificationDao {
     final db = await dbHelper.database;
     return await db.delete(
       tableName,
-      where: 'id = ?',
+      where: ClassificationMasterConstants.id + ' = ?',
       whereArgs: [id],
     );
   }

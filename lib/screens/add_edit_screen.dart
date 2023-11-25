@@ -13,14 +13,6 @@ import 'add_edit_item/scheduled_time_item.dart';
 class AddEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //状態管理
-    final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
-
-    //追加モードで開いた場合はリセット処理
-    if (!editTaskNotifierWatch.isEditMode) {
-      editTaskNotifierWatch.resetAll();
-    }
-
     return GestureDetector(
       onTap: () {
         // キーボードが表示されている場合、キーボードを隠す

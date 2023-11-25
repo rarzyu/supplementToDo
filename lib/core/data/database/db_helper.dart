@@ -3,17 +3,15 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:supplement_to_do/config/constants/db/classification_master_constants.dart';
+import 'package:supplement_to_do/config/constants/db/repeats_table_constants.dart';
+import 'package:supplement_to_do/config/constants/db/supplements_table_constants.dart';
+import 'package:supplement_to_do/config/constants/db/tasks_table_constants.dart';
 
 class DBHelper {
   //データベース名とバージョン
   static const _dbName = 'sapplement_to_do_app.db';
   static const _dbVersion = 1;
-
-  //テーブル名
-  static const classificationMaster = 'm_classification';
-  static const supplementsTable = 't_supplements';
-  static const tasksTable = 't_tasks';
-  static const repeatTable = 't_repeats';
 
   //シングルトンインスタンス
   //アプリケーション全体で1つのDBHelperインスタンスのみが存在するようにするための設計
@@ -47,52 +45,52 @@ class DBHelper {
   //テーブルの作成
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $classificationMaster (
-        "id"	INTEGER,
-        "name"	TEXT,
-        "deleted"	INTEGER,
-        "created_date_time"	TEXT,
-        "updated_date_time"	TEXT,
-        PRIMARY KEY("id" AUTOINCREMENT)
+      CREATE TABLE ${ClassificationMasterConstants.tableName} (
+        ${ClassificationMasterConstants.id}	INTEGER,
+        ${ClassificationMasterConstants.name}	TEXT,
+        ${ClassificationMasterConstants.deleted}	INTEGER,
+        ${ClassificationMasterConstants.createdDateTime}	TEXT,
+        ${ClassificationMasterConstants.updatedDateTime}	TEXT,
+        PRIMARY KEY(${ClassificationMasterConstants.id} AUTOINCREMENT)
       )
     ''');
 
     await db.execute('''
-        CREATE TABLE $supplementsTable (
-          "id"	INTEGER,
-          "name"	TEXT,
-          "classification_id"	INTEGER,
-          "created_date_time"	TEXT,
-          "updated_date_time"	TEXT,
-          PRIMARY KEY("id" AUTOINCREMENT)
+        CREATE TABLE ${SupplementsTableConstants.tableName} (
+          ${SupplementsTableConstants.id}	INTEGER,
+          ${SupplementsTableConstants.supplementName}	TEXT,
+          ${SupplementsTableConstants.classificationId}	INTEGER,
+          ${SupplementsTableConstants.createdDateTime}	TEXT,
+          ${SupplementsTableConstants.updatedDateTime}	TEXT,
+          PRIMARY KEY(${SupplementsTableConstants.id} AUTOINCREMENT)
         )
     ''');
 
     await db.execute('''
-        CREATE TABLE $tasksTable (
-          "id"	INTEGER,
-          "supplement_id"	INTEGER,
-          "scheduled_date"	TEXT,
-          "scheduled_time"	TEXT,
-          "repeat_id" INTEGER,
-          "details"	TEXT,
-          "completed"	INTEGER,
-          "created_date_time"	TEXT,
-          "updated_date_time"	TEXT,
-          PRIMARY KEY("id" AUTOINCREMENT)
+        CREATE TABLE ${TasksTableConstants.tableName} (
+          ${TasksTableConstants.id}	INTEGER,
+          ${TasksTableConstants.supplementId}	INTEGER,
+          ${TasksTableConstants.scheduledDate}	TEXT,
+          ${TasksTableConstants.scheduledTime}	TEXT,
+          ${TasksTableConstants.repeatId} INTEGER,
+          ${TasksTableConstants.details}	TEXT,
+          ${TasksTableConstants.completed}	INTEGER,
+          ${TasksTableConstants.createdDateTime}	TEXT,
+          ${TasksTableConstants.updatedDateTime}	TEXT,
+          PRIMARY KEY(${TasksTableConstants.id} AUTOINCREMENT)
         )
     ''');
 
     await db.execute('''
-        CREATE TABLE $repeatTable (
-          "id"	INTEGER,
-          "repeat_code"	INTEGER,
-          "repeat_title" TEXT,
-          "day_of_week"	TEXT,
-          "interval" INTEGER,
-          "created_date_time"	TEXT,
-          "updated_date_time"	TEXT,
-          PRIMARY KEY("id" AUTOINCREMENT)
+        CREATE TABLE ${RepeatsTableConstants.tableName} (
+          ${RepeatsTableConstants.id}	INTEGER,
+          ${RepeatsTableConstants.repeatCode}	INTEGER,
+          ${RepeatsTableConstants.repeatCode} TEXT,
+          ${RepeatsTableConstants.dayOfWeek}	TEXT,
+          ${RepeatsTableConstants.interval} INTEGER,
+          ${RepeatsTableConstants.createdDateTime}	TEXT,
+          ${RepeatsTableConstants.updatedDateTime}	TEXT,
+          PRIMARY KEY(${RepeatsTableConstants.id} AUTOINCREMENT)
         )
     ''');
   }

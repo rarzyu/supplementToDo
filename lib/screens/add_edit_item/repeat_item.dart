@@ -289,91 +289,78 @@ class RepeatSetClass {
     required this.dayTextController,
   });
 
-  //ローカル変数
-  List<String> selectedWeekdaysShort = [];
-  int repeatCode = 0;
-  int inputDay = 0;
-
   ///モデルに格納する
   void SetRepeatModel() {
     //状態管理
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
-    //セグメントごとに、必要な変数を設定する（繰り返しタイトル以外）
+    List<String> selectedWeekdaysShort = [];
+    String repeatTitle = '';
+    int repeatCode = 0;
+    int inputDay = 0;
+
+    //セグメントごとに、必要な変数を設定する
     switch (selectSegment) {
       //毎日
       case SEGMENT_1:
         repeatCode = REPEAT_CODE_EVERYDAY;
+        repeatTitle = SEGMENT_1;
         break;
 
       //曜日ごと
       case SEGMENT_2:
         repeatCode = REPEAT_CODE_WEEKDAYS;
-        //指定した曜日
+        //指定した曜日を配列に
         for (int i = 0; i < selectedWeekDays.length; i++) {
           if (selectedWeekDays[i]) {
             selectedWeekdaysShort.add(weekDaysShort[i]);
           }
         }
+
+        //すべての曜日を選択していた場合は毎日に切り替える
+        if (selectedWeekdaysShort.length == 7) {
+          repeatCode = REPEAT_CODE_EVERYDAY;
+          repeatTitle = SEGMENT_1;
+          selectedWeekdaysShort = [];
+          break;
+        }
+
+        if (selectedWeekdaysShort.isNotEmpty) {
+          repeatTitle = '毎週: ' + selectedWeekdaysShort.join('、');
+        }
+
         break;
 
       //日数ごと
       case SEGMENT_3:
         repeatCode = REPEAT_CODE_DAYS;
-        //入力した日数
-        inputDay = int.parse(
-            dayTextController.text.isEmpty ? '0' : dayTextController.text);
+
+        //入力がない or 0の場合
+        if (dayTextController.text.isEmpty || dayTextController.text == '0') {
+          inputDay = 0;
+          repeatTitle = '';
+
+          //入力されている場合
+        } else {
+          inputDay = int.parse(dayTextController.text);
+          repeatTitle = dayTextController.text + '日ごと';
+        }
         break;
 
       //未選択など
       default:
         repeatCode = 0;
+        repeatTitle = SEGMENT_1;
     }
 
     //格納
     //繰り返しコード
     editTaskNotifierRead.setRepeatCode(repeatCode);
     //繰り返しタイトル
-    editTaskNotifierRead.setRepeatTitle(CreateRepeatTitle());
+    editTaskNotifierRead.setRepeatTitle(repeatTitle);
     //選択した曜日
     editTaskNotifierRead.setDayOfWeek(selectedWeekdaysShort.join('、'));
     //入力した日数
     editTaskNotifierRead.setInterval(inputDay);
-  }
-
-  ///選択した繰り返しのタイトルを設定する
-  ///ユーザー入力が必要な場合で、入力がない場合は空欄を返す（そのため、プレースホルダーが表示される）
-  String CreateRepeatTitle() {
-    String _res = '';
-
-    switch (selectSegment) {
-      ///毎日
-      ///そのまま返す
-      case SEGMENT_1:
-        _res = selectSegment;
-        break;
-
-      ///曜日ごと
-      ///選択された曜日の頭文字を末尾に追加する
-      ///例）毎週：月、火
-      case SEGMENT_2:
-        if (selectedWeekdaysShort.isNotEmpty) {
-          _res = '毎週: ' + selectedWeekdaysShort.join('、');
-        }
-        break;
-
-      ///日数ごと
-      ///例）3日ごと
-      case SEGMENT_3:
-        //入力がない or 0の場合、空白に
-        if (dayTextController.text.isEmpty || dayTextController.text == '0') {
-          _res = '';
-        } else {
-          _res = dayTextController.text + '日ごと';
-        }
-        break;
-    }
-
-    return _res;
   }
 }

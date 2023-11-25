@@ -1,3 +1,5 @@
+import 'package:supplement_to_do/config/constants/db/tasks_table_constants.dart';
+
 ///t_tasks タスクテーブル
 class TasksDto {
   final int id; //ID
@@ -25,30 +27,30 @@ class TasksDto {
   // データベースのMapからDTOを作成
   factory TasksDto.fromMap(Map<String, dynamic> map) {
     return TasksDto(
-      id: map['id'],
-      supplementId: map['sapplement_id'],
-      scheduledDate: map['scheduled_date'],
-      scheduledTime: map['scheduled_time'],
-      repeatId: map['repeat_id'],
-      details: map['details'],
-      completed: map['completed'],
-      createdDateTime: map['created_date_time'],
-      updatedDateTime: map['updated_date_time'],
+      id: map[TasksTableConstants.id],
+      supplementId: map[TasksTableConstants.supplementId],
+      scheduledDate: map[TasksTableConstants.scheduledDate],
+      scheduledTime: map[TasksTableConstants.scheduledTime],
+      repeatId: map[TasksTableConstants.repeatId],
+      details: map[TasksTableConstants.details],
+      completed: map[TasksTableConstants.completed],
+      createdDateTime: map[TasksTableConstants.createdDateTime],
+      updatedDateTime: map[TasksTableConstants.updatedDateTime],
     );
   }
 
   // DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'sapplement_id': supplementId,
-      'scheduled_date': scheduledDate,
-      'scheduled_time': scheduledTime,
-      'repeat_id': repeatId,
-      'details': details,
-      'completed': completed,
-      'created_date_time': createdDateTime,
-      'updated_date_time': updatedDateTime,
+      TasksTableConstants.id: id,
+      TasksTableConstants.supplementId: supplementId,
+      TasksTableConstants.scheduledDate: scheduledDate,
+      TasksTableConstants.scheduledTime: scheduledTime,
+      TasksTableConstants.repeatId: repeatId,
+      TasksTableConstants.details: details,
+      TasksTableConstants.completed: completed,
+      TasksTableConstants.createdDateTime: createdDateTime,
+      TasksTableConstants.updatedDateTime: updatedDateTime,
     };
   }
 }

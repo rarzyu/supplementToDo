@@ -1,14 +1,16 @@
+import 'package:supplement_to_do/config/constants/db/supplements_table_constants.dart';
+
 ///t_supplements サプリメントテーブル
 class SupplementsDto {
   final int id;
-  final String name;
+  final String supplementName;
   final int classificationId;
   final String createdDateTime;
   final String updatedDateTime;
 
   SupplementsDto({
     required this.id,
-    required this.name,
+    required this.supplementName,
     required this.classificationId,
     required this.createdDateTime,
     required this.updatedDateTime,
@@ -17,22 +19,22 @@ class SupplementsDto {
   //データベースのMapからDTOを作成
   factory SupplementsDto.fromMap(Map<String, dynamic> map) {
     return SupplementsDto(
-      id: map['id'],
-      name: map['name'],
-      classificationId: map['classification_id'],
-      createdDateTime: map['created_date_time'],
-      updatedDateTime: map['updated_date_time'],
+      id: map[SupplementsTableConstants.id],
+      supplementName: map[SupplementsTableConstants.supplementName],
+      classificationId: map[SupplementsTableConstants.classificationId],
+      createdDateTime: map[SupplementsTableConstants.createdDateTime],
+      updatedDateTime: map[SupplementsTableConstants.updatedDateTime],
     );
   }
 
   //DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
-      'classification_id': classificationId,
-      'created_date_time': createdDateTime,
-      'updated_date_time': updatedDateTime,
+      SupplementsTableConstants.id: id,
+      SupplementsTableConstants.supplementName: supplementName,
+      SupplementsTableConstants.classificationId: classificationId,
+      SupplementsTableConstants.createdDateTime: createdDateTime,
+      SupplementsTableConstants.updatedDateTime: updatedDateTime,
     };
   }
 }

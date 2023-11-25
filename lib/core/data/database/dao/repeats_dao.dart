@@ -1,4 +1,5 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:supplement_to_do/config/constants/db/repeats_table_constants.dart';
 import 'package:supplement_to_do/core/data/database/dto/repeats_dto.dart';
 import '../db_helper.dart';
 
@@ -90,12 +91,13 @@ class RepeatsDao {
   Future<int> updateRepeats(RepeatsDto repeats) async {
     final db = await dbHelper.database;
     return await db.update(tableName, repeats.toMap(),
-        where: 'id = ?', whereArgs: [repeats.id]);
+        where: RepeatsTableConstants.id + ' = ?', whereArgs: [repeats.id]);
   }
 
   ///DELETE
   Future<int> deleteRepeats(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    return await db.delete(tableName,
+        where: RepeatsTableConstants.id + ' = ?', whereArgs: [id]);
   }
 }
