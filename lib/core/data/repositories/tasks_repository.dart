@@ -20,7 +20,7 @@ class TasksRepository {
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> fetchClassificationQuery(
+  Future<List<TasksDto>> fetchClassificationQuery(
       TasksQueryOption option) async {
     return await dbHelper.tasksQuery(option);
   }

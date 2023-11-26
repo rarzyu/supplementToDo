@@ -3,9 +3,6 @@ import 'package:supplement_to_do/config/constants/db/tasks_table_constants.dart'
 import '../db_helper.dart';
 import '../dto/tasks_dto.dart';
 
-///グローバル変数
-const String tableName = 't_tasks';
-
 ///このクラスで使用している構造体
 ///
 ///tasksQueryOption用
@@ -38,19 +35,20 @@ class TasksDao {
   ///INSERT
   Future<int> insertTasks(TasksDto tasks) async {
     final db = await dbHelper.database;
-    return await db.insert(tableName, tasks.toMap(),
+    return await db.insert(TasksTableConstants.tableName, tasks.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   ///SELECT ALL
   Future<List<TasksDto>> getAllTasks() async {
     final db = await dbHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName);
+    final List<Map<String, dynamic>> maps =
+        await db.query(TasksTableConstants.tableName);
     return List.generate(maps.length, (i) => TasksDto.fromMap(maps[i]));
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> tasksQuery(TasksQueryOption option) async {
+  Future<List<TasksDto>> tasksQuery(TasksQueryOption option) async {
     final db = await dbHelper.database;
     String whereString = ''; //where句
     String orderByString = ''; //order by句
@@ -79,24 +77,28 @@ class TasksDao {
       }
     }
 
-    return await db.query(tableName,
+    //取得
+    final List<Map<String, dynamic>> maps = await db.query(
+        TasksTableConstants.tableName,
         columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
         orderBy: orderByString);
+
+    return List.generate(maps.length, (i) => TasksDto.fromMap(maps[i]));
   }
 
   ///UPDATE
   Future<int> updateTasks(TasksDto tasks) async {
     final db = await dbHelper.database;
-    return await db.update(tableName, tasks.toMap(),
-        where: TasksTableConstants.id + ' = ?', whereArgs: [tasks.id]);
+    return await db.update(TasksTableConstants.tableName, tasks.toMap(),
+        where: '${TasksTableConstants.id} = ?', whereArgs: [tasks.id]);
   }
 
   ///DELETE
   Future<int> deleteTasks(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(tableName,
-        where: TasksTableConstants.id + ' = ?', whereArgs: [id]);
+    return await db.delete(TasksTableConstants.tableName,
+        where: '${TasksTableConstants.id} = ?', whereArgs: [id]);
   }
 }

@@ -20,7 +20,7 @@ class ClassificationRepository {
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> fetchClassificationQuery(
+  Future<List<ClassificationDto>> fetchClassificationQuery(
       ClassificationQueryOption option) async {
     return await dbHelper.classificationQuery(option);
   }

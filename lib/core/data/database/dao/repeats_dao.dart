@@ -3,9 +3,6 @@ import 'package:supplement_to_do/config/constants/db/repeats_table_constants.dar
 import 'package:supplement_to_do/core/data/database/dto/repeats_dto.dart';
 import '../db_helper.dart';
 
-///グローバル変数
-const String tableName = 't_repeats';
-
 ///このクラスで使用している構造体
 ///
 ///repeatQueryOption用
@@ -38,20 +35,20 @@ class RepeatsDao {
   ///INSERT
   Future<int> insertRepeats(RepeatsDto repeats) async {
     final db = await dbHelper.database;
-    return await db.insert(tableName, repeats.toMap(),
+    return await db.insert(RepeatsTableConstants.tableName, repeats.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   ///SELECT ALL
   Future<List<RepeatsDto>> getAllRepeats() async {
     final db = await dbHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName);
+    final List<Map<String, dynamic>> maps =
+        await db.query(RepeatsTableConstants.tableName);
     return List.generate(maps.length, (i) => RepeatsDto.fromMap(maps[i]));
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> repeatsQuery(
-      RepeatsQueryOption option) async {
+  Future<List<RepeatsDto>> repeatsQuery(RepeatsQueryOption option) async {
     final db = await dbHelper.database;
     String whereString = ''; //where句
     String orderByString = ''; //order by句
@@ -80,24 +77,26 @@ class RepeatsDao {
       }
     }
 
-    return await db.query(tableName,
+    final List<Map<String, dynamic>> maps = await db.query(
+        RepeatsTableConstants.tableName,
         columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
         orderBy: orderByString);
+    return List.generate(maps.length, (i) => RepeatsDto.fromMap(maps[i]));
   }
 
   ///UPDATE
   Future<int> updateRepeats(RepeatsDto repeats) async {
     final db = await dbHelper.database;
-    return await db.update(tableName, repeats.toMap(),
-        where: RepeatsTableConstants.id + ' = ?', whereArgs: [repeats.id]);
+    return await db.update(RepeatsTableConstants.tableName, repeats.toMap(),
+        where: '${RepeatsTableConstants.id} = ?', whereArgs: [repeats.id]);
   }
 
   ///DELETE
   Future<int> deleteRepeats(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(tableName,
-        where: RepeatsTableConstants.id + ' = ?', whereArgs: [id]);
+    return await db.delete(RepeatsTableConstants.tableName,
+        where: '${RepeatsTableConstants.id} = ?', whereArgs: [id]);
   }
 }

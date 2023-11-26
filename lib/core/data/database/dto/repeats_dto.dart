@@ -19,7 +19,7 @@ class RepeatsDto {
       required this.createdDateTime,
       required this.updatedDateTime});
 
-  // データベースのMapからDTOを作成
+  ///データベースのMapからDTOを作成
   factory RepeatsDto.fromMap(Map<String, dynamic> map) {
     return RepeatsDto(
       id: map[RepeatsTableConstants.id],
@@ -32,7 +32,7 @@ class RepeatsDto {
     );
   }
 
-  // DTOからデータベースのMapを作成
+  ///DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
       RepeatsTableConstants.id: id,

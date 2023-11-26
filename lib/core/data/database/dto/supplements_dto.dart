@@ -16,7 +16,7 @@ class SupplementsDto {
     required this.updatedDateTime,
   });
 
-  //データベースのMapからDTOを作成
+  ///データベースのMapからDTOを作成
   factory SupplementsDto.fromMap(Map<String, dynamic> map) {
     return SupplementsDto(
       id: map[SupplementsTableConstants.id],
@@ -27,7 +27,7 @@ class SupplementsDto {
     );
   }
 
-  //DTOからデータベースのMapを作成
+  ///DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
       SupplementsTableConstants.id: id,

@@ -20,7 +20,7 @@ class RepeatsRepository {
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> fetchClassificationQuery(
+  Future<List<RepeatsDto>> fetchClassificationQuery(
       RepeatsQueryOption option) async {
     return await dbHelper.repeatsQuery(option);
   }

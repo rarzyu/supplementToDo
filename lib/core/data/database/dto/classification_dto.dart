@@ -16,7 +16,7 @@ class ClassificationDto {
     required this.updatedDateTime,
   });
 
-  //データベースのMapからDTOを作成
+  ///データベースのMapからDTOを作成
   factory ClassificationDto.fromMap(Map<String, dynamic> map) {
     return ClassificationDto(
       id: map[ClassificationMasterConstants.id],
@@ -27,7 +27,7 @@ class ClassificationDto {
     );
   }
 
-  //DTOからデータベースのMapを作成
+  ///DTOからデータベースのMapを作成
   Map<String, dynamic> toMap() {
     return {
       ClassificationMasterConstants.id: id,

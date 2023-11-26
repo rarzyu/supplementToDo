@@ -3,9 +3,6 @@ import 'package:supplement_to_do/config/constants/db/supplements_table_constants
 import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
 import '../db_helper.dart';
 
-///グローバル変数
-const String tableName = 't_supplements';
-
 ///このクラスで使用している構造体
 ///
 ///supplementsQueryOption用
@@ -38,19 +35,21 @@ class SupplementsDao {
   ///INSERT
   Future<int> insertSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
-    return await db.insert(tableName, supplements.toMap(),
+    return await db.insert(
+        SupplementsTableConstants.tableName, supplements.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   ///SELECT ALL
   Future<List<SupplementsDto>> getAllSupplements() async {
     final db = await dbHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query('t_tasks');
+    final List<Map<String, dynamic>> maps =
+        await db.query(SupplementsTableConstants.tableName);
     return List.generate(maps.length, (i) => SupplementsDto.fromMap(maps[i]));
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> supplementsQuery(
+  Future<List<SupplementsDto>> supplementsQuery(
       SupplementsQueryOption option) async {
     final db = await dbHelper.database;
     String whereString = ''; //where句
@@ -80,25 +79,28 @@ class SupplementsDao {
       }
     }
 
-    return await db.query(tableName,
+    final List<Map<String, dynamic>> maps = await db.query(
+        SupplementsTableConstants.tableName,
         columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
         orderBy: orderByString);
+    return List.generate(maps.length, (i) => SupplementsDto.fromMap(maps[i]));
   }
 
   ///UPDATE
   Future<int> updateSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
-    return await db.update(tableName, supplements.toMap(),
-        where: SupplementsTableConstants.id + ' = ?',
+    return await db.update(
+        SupplementsTableConstants.tableName, supplements.toMap(),
+        where: '${SupplementsTableConstants.id} = ?',
         whereArgs: [supplements.id]);
   }
 
   ///DELETE
   Future<int> deleteSupplements(int id) async {
     final db = await dbHelper.database;
-    return await db.delete(tableName,
-        where: SupplementsTableConstants.id + ' = ?', whereArgs: [id]);
+    return await db.delete(SupplementsTableConstants.tableName,
+        where: '${SupplementsTableConstants.id} = ?', whereArgs: [id]);
   }
 }

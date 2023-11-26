@@ -2,9 +2,6 @@ import 'package:supplement_to_do/config/constants/db/classification_master_const
 import 'package:supplement_to_do/core/data/database/db_helper.dart';
 import '../dto/classification_dto.dart';
 
-///グローバル変数
-const String tableName = 'm_classification';
-
 ///このクラスで使用している構造体
 ///
 ///classificationQuery用
@@ -38,19 +35,21 @@ class ClassificationDao {
   ///INSERT
   Future<int> insertClassification(ClassificationDto classification) async {
     final db = await dbHelper.database;
-    return await db.insert(tableName, classification.toMap());
+    return await db.insert(
+        ClassificationMasterConstants.tableName, classification.toMap());
   }
 
   ///SELECT ALL
   Future<List<ClassificationDto>> getClassificationAll() async {
     final db = await dbHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName);
+    final List<Map<String, dynamic>> maps =
+        await db.query(ClassificationMasterConstants.tableName);
     return List.generate(
         maps.length, (i) => ClassificationDto.fromMap(maps[i]));
   }
 
   ///SELECT 条件指定
-  Future<List<Map<String, dynamic>>> classificationQuery(
+  Future<List<ClassificationDto>> classificationQuery(
       ClassificationQueryOption option) async {
     final db = await dbHelper.database;
     String whereString = ''; //where句
@@ -80,20 +79,24 @@ class ClassificationDao {
       }
     }
 
-    return await db.query(tableName,
+    final List<Map<String, dynamic>> maps = await db.query(
+        ClassificationMasterConstants.tableName,
         columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
         orderBy: orderByString);
+
+    return List.generate(
+        maps.length, (i) => ClassificationDto.fromMap(maps[i]));
   }
 
   ///UPDATE
   Future<int> updateClassification(ClassificationDto classification) async {
     final db = await dbHelper.database;
     return await db.update(
-      tableName,
+      ClassificationMasterConstants.tableName,
       classification.toMap(),
-      where: ClassificationMasterConstants.id + ' = ?',
+      where: '${ClassificationMasterConstants.id} = ?',
       whereArgs: [classification.id],
     );
   }
@@ -102,8 +105,8 @@ class ClassificationDao {
   Future<int> deleteClassification(int id) async {
     final db = await dbHelper.database;
     return await db.delete(
-      tableName,
-      where: ClassificationMasterConstants.id + ' = ?',
+      ClassificationMasterConstants.tableName,
+      where: '${ClassificationMasterConstants.id} = ?',
       whereArgs: [id],
     );
   }
