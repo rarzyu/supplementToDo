@@ -29,6 +29,8 @@ class ClassificationSelectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //状態管理
+    final classificationListNotifierRead =
+        context.read<ClassificationListNotifier>();
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     String classificationName = editTaskNotifierWatch.classificationName;
 
@@ -39,7 +41,11 @@ class ClassificationSelectButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.themeBackGray,
             shadowColor: Colors.black),
-        onPressed: () => ClassificationSelectModal().showCustomModal(context),
+        onPressed: () {
+          //モーダルを開く前に、DBから取得
+          classificationListNotifierRead.getClassificationListModelForDB();
+          ClassificationSelectModal().showCustomModal(context);
+        },
         child: Text(
           classificationName == '' ? '分類を選択' : classificationName,
           style: TextStyle(
@@ -97,6 +103,7 @@ class ClassificationSelectModal {
 }
 
 ///分類リスト
+///表示用のリストとDBは別管理だが、更新タイミングは同じにしている
 class ClassificationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -204,15 +211,21 @@ class AddEditModal {
   AddEditModal({required this.isEditMode, required this.index});
 
   void showAddEditModal(BuildContext context) {
-    TextEditingController _controller = TextEditingController();
+    TextEditingController _controller;
 
     //状態管理
     final classificationListNotifierRead =
         context.read<ClassificationListNotifier>();
     ClassificationModel classification;
+
+    //追加・更新で分岐
     if (isEditMode) {
+      //更新
       classification = classificationListNotifierRead.classifications[index];
+      _controller = TextEditingController(text: classification.name);
     } else {
+      //追加
+      _controller = TextEditingController();
       int dummy = DateTime.timestamp().hashCode;
       classification = ClassificationModel(
           id: dummy, name: '', deleted: false); //idはダミー（タイムスタンプのハッシュ値）

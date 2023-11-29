@@ -38,6 +38,7 @@ class DBHelper {
     //ドキュメントディレクトリの取得
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _dbName);
+    print('DBPath: $path');
     //データベースを開く、存在しない場合は_onCreateを呼んでデータベースを作成
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
@@ -85,7 +86,7 @@ class DBHelper {
         CREATE TABLE ${RepeatsTableConstants.tableName} (
           ${RepeatsTableConstants.id}	INTEGER,
           ${RepeatsTableConstants.repeatCode}	INTEGER,
-          ${RepeatsTableConstants.repeatCode} TEXT,
+          ${RepeatsTableConstants.repeatTitle} TEXT,
           ${RepeatsTableConstants.dayOfWeek}	TEXT,
           ${RepeatsTableConstants.interval} INTEGER,
           ${RepeatsTableConstants.createdDateTime}	TEXT,

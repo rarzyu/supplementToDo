@@ -4,9 +4,9 @@ import 'package:supplement_to_do/core/data/database/db_helper.dart';
 import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
 
 ///サプリメントテーブルのCRUD操作
-class SupplementTableService {
+class SupplementsTableService {
   final int id;
-  SupplementTableService({
+  SupplementsTableService({
     required this.id,
   });
 
@@ -26,6 +26,17 @@ class SupplementTableService {
     //抽出
     Future<List<SupplementsDto>> queryResult =
         supplementsDao.supplementsQuery(queryOption);
+    queryResult.then((value) => _res);
+
+    return _res;
+  }
+
+  ///INSERT
+  int insertSupplements(SupplementsDto dto) {
+    int _res = 0;
+
+    //insert
+    Future<int> queryResult = supplementsDao.insertSupplements(dto);
     queryResult.then((value) => _res);
 
     return _res;

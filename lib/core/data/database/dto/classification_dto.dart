@@ -37,4 +37,26 @@ class ClassificationDto {
       ClassificationMasterConstants.updatedDateTime: updatedDateTime,
     };
   }
+
+  ///DTOからDBのMapを作成
+  ///INSERT用、IDをなくしている
+  Map<String, dynamic> toMapNoId() {
+    return {
+      ClassificationMasterConstants.name: name,
+      ClassificationMasterConstants.deleted: deleted,
+      ClassificationMasterConstants.createdDateTime: createdDateTime,
+      ClassificationMasterConstants.updatedDateTime: updatedDateTime,
+    };
+  }
+
+  ///DTOからDBのMapを作成
+  ///UPDATE用、CreatedDateTimeをなくしている
+  Map<String, dynamic> toMapNoCreatedDateTime() {
+    return {
+      ClassificationMasterConstants.id: id,
+      ClassificationMasterConstants.name: name,
+      ClassificationMasterConstants.deleted: deleted,
+      ClassificationMasterConstants.updatedDateTime: updatedDateTime,
+    };
+  }
 }

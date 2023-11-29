@@ -5,6 +5,8 @@ import 'package:supplement_to_do/models/base_task_model.dart';
 import 'package:supplement_to_do/providers/edit_task_notifier.dart';
 import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
+import '../../providers/date_manager_notifier.dart';
+import '../../services/task_list_service.dart';
 
 ///タスク一覧セクション
 ///セクション全体
@@ -15,6 +17,14 @@ class TaskList extends StatelessWidget {
     final taskListNotifierRead = context.read<TaskListNotifier>(); //更新用
     final taskListNotifierWatch = context.watch<TaskListNotifier>(); //読み取り用
     List taskList = taskListNotifierWatch.taskListModel.taskList;
+
+    final dateNotifierRead = context.read<DateManagerNotifier>();
+
+    //その日付のデータを取得する
+    TaskListService(
+            taskListNotifierRead: taskListNotifierRead,
+            dateManagerNotifierRead: dateNotifierRead)
+        .getSelectedDateTaskList;
 
     return Expanded(
       child: taskList.length == 0
