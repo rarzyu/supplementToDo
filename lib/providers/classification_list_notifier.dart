@@ -50,19 +50,37 @@ class ClassificationListNotifier extends ChangeNotifier {
 
   ///セッター
   ///リストの追加
-  void addClassification(ClassificationModel classification) {
+  ///戻り値：true=追加完了／false=追加せず、その同名の削除を復活させる
+  Future<bool> addClassification(ClassificationModel classification) async {
     ClassificationMasterService service = ClassificationMasterService(id: 0);
 
+    //同名チェック
+    bool checkResult =
+        await service.checkSameClassificationName(classification.name);
+
+    //チェックに引っ掛かったら、追加せずにその値を更新する
+    if (checkResult) {
+      //削除済みの場合、復元する
+      checkNgSameNameJob(service, classification);
+      notifyListeners();
+      return false;
+    }
+
+    //追加
     classificationListModel.classifications.add(classification);
 
     //DBにも追加
     service.insertClassificationForModel(classification);
 
     notifyListeners();
+
+    return true;
   }
 
   ///リストの更新
-  void updateClassification(ClassificationModel updatedClassification) {
+  ///戻り値：true=更新完了／false=更新せず、その同名の削除を復活させる
+  Future<bool> updateClassification(
+      ClassificationModel updatedClassification) async {
     final index = classificationListModel.classifications.indexWhere(
         (classification) => classification.id == updatedClassification.id);
 
@@ -71,6 +89,19 @@ class ClassificationListNotifier extends ChangeNotifier {
 
     //要素が見つかる場合のみ実行
     if (index != -1) {
+      //同名チェック
+      bool checkResult =
+          await service.checkSameClassificationName(updatedClassification.name);
+
+      //チェックに引っ掛かったら更新せずにfalseを返す
+      if (checkResult) {
+        //削除済みの場合、復元する
+        checkNgSameNameJob(service, updatedClassification);
+        notifyListeners();
+        return false;
+      }
+
+      //更新
       classificationListModel.classifications[index] = updatedClassification;
 
       //DBも更新
@@ -78,6 +109,8 @@ class ClassificationListNotifier extends ChangeNotifier {
 
       notifyListeners();
     }
+
+    return true;
   }
 
   ///リストから削除
@@ -87,7 +120,7 @@ class ClassificationListNotifier extends ChangeNotifier {
 
     ClassificationMasterService service = ClassificationMasterService(id: id);
 
-    //DBからも削除
+    //DBからも削除（論理）
     service.deleteClassification();
 
     notifyListeners();
@@ -97,5 +130,30 @@ class ClassificationListNotifier extends ChangeNotifier {
   ///初期化
   void resetAll() {
     classificationListModel = ClassificationListModel(classifications: []);
+  }
+
+  ///同名チェックに引っ掛かった場合の処理
+  ///削除フラグをfalseにする
+  void checkNgSameNameJob(ClassificationMasterService service,
+      ClassificationModel classification) async {
+    //データ取得
+    List<ClassificationDto> queryResult =
+        await service.getClassificationForName(classification.name);
+
+    //もし、削除済みでなかった場合は何もしない
+    if (queryResult[0].deleted == 0) {
+      return;
+    }
+
+    //リスト用にモデルにする
+    //削除フラグは、復活させるのでfalse
+    ClassificationModel model = ClassificationModel(
+        id: queryResult[0].id, name: queryResult[0].name, deleted: false);
+
+    //DBの更新
+    service.updateClassificationForModel(model);
+
+    //リストにも追加
+    classificationListModel.classifications.add(model);
   }
 }

@@ -25,7 +25,7 @@ class AddEditScreen extends StatelessWidget {
                 AddEditTopSection(),
                 ScheduledDate(),
                 SheduledTime(),
-                Repeat(),
+                // Repeat(),
                 TaskTitle(),
                 Classification(),
                 Details(),

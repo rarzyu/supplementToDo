@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:supplement_to_do/models/classification_model.dart';
 import 'package:supplement_to_do/providers/classification_list_notifier.dart';
 import 'package:supplement_to_do/providers/edit_task_notifier.dart';
+import 'package:supplement_to_do/widgets/alert.dart';
 import '../../config/constants/color.dart';
 import 'add_edit_section_title.dart';
 
@@ -245,17 +246,65 @@ class AddEditModal {
                   },
                   child: Text('キャンセル')),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (isEditMode) {
                       //編集処理
                       classification.name = _controller.text;
-                      classificationListNotifierRead
+
+                      //更新処理
+                      bool result = await classificationListNotifierRead
                           .updateClassification(classification);
+
+                      //結果がfalseの場合、エラーアラートを表示
+                      if (!result) {
+                        Navigator.pop(context);
+
+                        //入力ダイアログを閉じるので少しだけ遅延させる
+                        Future.delayed(Duration(milliseconds: 20), () {
+                          Alert().showGeneralMessageAlert(
+                              context,
+                              '更新できません',
+                              'すでに存在します。\n削除済みの場合は復元しました。',
+                              Icon(
+                                Icons.warning,
+                                color: Colors.yellow.shade600,
+                              ));
+                        });
+
+                        //リスト更新
+                        classificationListNotifierRead
+                            .getClassificationListModelForDB();
+
+                        return;
+                      }
                     } else {
                       //追加処理
                       classification.name = _controller.text;
-                      classificationListNotifierRead
+                      bool result = await classificationListNotifierRead
                           .addClassification(classification);
+
+                      //結果がfalseの場合、警告アラートを表示
+                      if (!result) {
+                        Navigator.pop(context);
+
+                        //入力ダイアログを閉じるので少しだけ遅延させる
+                        Future.delayed(Duration(milliseconds: 20), () {
+                          Alert().showGeneralMessageAlert(
+                              context,
+                              '追加できません',
+                              'すでに存在します。\n削除済みの場合は復元しました。',
+                              Icon(
+                                Icons.warning,
+                                color: Colors.yellow.shade600,
+                              ));
+                        });
+
+                        //リスト更新
+                        classificationListNotifierRead
+                            .getClassificationListModelForDB();
+
+                        return;
+                      }
                     }
                     Navigator.pop(context);
                   },

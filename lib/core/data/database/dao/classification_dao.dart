@@ -92,7 +92,7 @@ class ClassificationDao {
         ClassificationMasterConstants.tableName,
         where: whereString,
         whereArgs: option.conditionValues,
-        orderBy: orderByString);
+        orderBy: orderByString == '' ? null : orderByString);
 
     return List.generate(
         maps.length, (i) => ClassificationDto.fromMap(maps[i]));

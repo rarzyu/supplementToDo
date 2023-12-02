@@ -49,6 +49,37 @@ class ClassificationMasterService {
     return _res;
   }
 
+  ///名称からデータを取得
+  Future<List<ClassificationDto>> getClassificationForName(String name) async {
+    //条件用のクラスの作成
+    ClassificationQueryOption queryOption = ClassificationQueryOption(
+      conditions: [ClassificationMasterConstants.name],
+      conditionValues: [name],
+    );
+
+    //取得
+    List<ClassificationDto> _res =
+        await classificationDao.classificationQuery(queryOption);
+
+    return _res;
+  }
+
+  ///同名チェック
+  ///戻り値：true=同名あり／false=同名なし
+  Future<bool> checkSameClassificationName(String name) async {
+    //条件用のクラスの作成
+    ClassificationQueryOption queryOption = ClassificationQueryOption(
+        conditions: [ClassificationMasterConstants.name],
+        conditionValues: [name]);
+
+    //取得
+    List<ClassificationDto> result =
+        await classificationDao.classificationQuery(queryOption);
+
+    //結果が1つでもあればtrue、0件ならfalse
+    return result.length == 0 ? false : true;
+  }
+
   ///ClassificationModelからINSERTする
   void insertClassificationForModel(ClassificationModel model) async {
     String timeStamp = DateTimeCommon().createTimeStamp(DateTime.now());
@@ -106,4 +137,5 @@ class ClassificationMasterService {
   ///UPDATE・INSERT前に、すでにその分類名が存在するかのバリデーションチェックを行う
   ///チェックに引っかかった場合は復活し、メッセージも出力する
   ///UPDATEの場合、エラーとし、INSERTするようにメッセージを表示する
+  ///そのため、UPDATEなどは戻り値をboolにしておくと良いかも
 }
