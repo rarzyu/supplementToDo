@@ -5,20 +5,10 @@ import 'package:supplement_to_do/core/data/database/dto/repeats_dto.dart';
 
 ///繰り返しテーブルのCRUD操作
 class RepeatsTableService {
-  ///ID
-  final int id;
-
-  RepeatsTableService({
-    required this.id,
-  });
-
-  ///ローカル変数群
   RepeatsDao repeatsDao = RepeatsDao(DBHelper.instance);
 
   ///IDからデータを取得
-  List<RepeatsDto> getRepeatsForId() {
-    List<RepeatsDto> _res = [];
-
+  Future<List<RepeatsDto>> getRepeatsForId(int id) async {
     //条件用のクラスの作成
     RepeatsQueryOption queryOption = RepeatsQueryOption(
       conditions: [RepeatsTableConstants.id],
@@ -26,9 +16,13 @@ class RepeatsTableService {
     );
 
     //取得
-    Future<List<RepeatsDto>> queryResult = repeatsDao.repeatsQuery(queryOption);
-    queryResult.then((value) => _res);
+    List<RepeatsDto> _res = await repeatsDao.repeatsQuery(queryOption);
+    return _res;
+  }
 
+  ///DTOでINSERT
+  Future<int> insertRepeats(RepeatsDto dto) async {
+    int _res = await repeatsDao.insertRepeats(dto);
     return _res;
   }
 }

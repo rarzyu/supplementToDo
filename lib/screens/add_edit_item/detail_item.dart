@@ -9,8 +9,8 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //状態管理
-    final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
-    String initDetail = editTaskNotifierWatch.detail;
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
+    String initDetail = editTaskNotifierRead.detail;
 
     final Icon icon = Icon(Icons.notes_rounded, color: AppColors.fontBlackBold);
     final String title = '詳細';
@@ -65,22 +65,20 @@ class _DetailTextBoxState extends State<DetailTextBox> {
     return Container(
       padding: EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
       height: MediaQuery.of(context).size.height * 0.25,
-      child: Expanded(
-        child: TextField(
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          decoration: InputDecoration(
-            hintText: '詳細を追加', //プレースホルダー
-            border: InputBorder.none, //ボーダーを消去
-          ),
-          style: TextStyle(
-            color: AppColors.fontBlack,
-          ),
-          //テキスト編集時処理
-          onChanged: (value) {
-            editTaskNotifierRead.setDetail(value);
-          },
+      child: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        decoration: InputDecoration(
+          hintText: '詳細を追加', //プレースホルダー
+          border: InputBorder.none, //ボーダーを消去
         ),
+        style: TextStyle(
+          color: AppColors.fontBlack,
+        ),
+        //テキスト編集時処理
+        onChanged: (value) {
+          editTaskNotifierRead.setDetail(value);
+        },
       ),
     );
   }

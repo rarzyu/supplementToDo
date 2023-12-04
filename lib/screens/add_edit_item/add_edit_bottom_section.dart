@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
+import 'package:supplement_to_do/services/add_edit_task_service.dart';
 import '../../providers/edit_task_notifier.dart';
 
 ///ボトム部分
@@ -9,6 +10,7 @@ class AddEditBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     //状態管理
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
     bool isEditMode = editTaskNotifierWatch.isEditMode;
 
     return Container(
@@ -22,7 +24,16 @@ class AddEditBottom extends StatelessWidget {
           ///TODO
           ///完了ボタン押下時の処理
           ///このトリガーでDBに反映させる
-          print('hoge');
+          AddEditTaskService addEditTaskService =
+              AddEditTaskService(editTaskNotifierRead: editTaskNotifierRead);
+
+          if (isEditMode) {
+            //編集
+          } else {
+            //追加
+            addEditTaskService.insertTask();
+          }
+
           showDialog(
               context: context,
               builder: (BuildContext context) {

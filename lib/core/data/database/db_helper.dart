@@ -10,30 +10,40 @@ import 'package:supplement_to_do/config/constants/db/tasks_table_constants.dart'
 
 class DBHelper {
   //データベース名とバージョン
-  static const _dbName = 'sapplement_to_do_app.db';
+  static const _dbName = 'supplement_to_do_app.db';
   static const _dbVersion = 1;
 
   //シングルトンインスタンス
   //アプリケーション全体で1つのDBHelperインスタンスのみが存在するようにするための設計
   static DBHelper? _instance;
-  static late Database _database;
+  static Database? _database;
 
   //プライベートな名前付きコンストラクタ
   //シングルトンパターンを実装するために、外部からインスタンスを作成できないようにする
   DBHelper._privateConstructor();
 
-  //インスタンスを返すゲッター
+  ///インスタンスを返すゲッター
   static DBHelper get instance {
     return _instance ??= DBHelper._privateConstructor();
   }
 
-  //データベースへの参照を返すゲッター
+  ///データベースへの参照を返すゲッター
   Future<Database> get database async {
-    _database = await _initDatabase();
-    return _database;
+    //データベースが存在しない場合は作成する
+    if (_database == null || _database?.isOpen == false) {
+      _database = await _initDatabase();
+    }
+
+    return _database!;
   }
 
-  //データベースの初期化
+  ///DBを閉じる
+  Future close() async {
+    var dbClient = await database;
+    return dbClient.close();
+  }
+
+  ///データベースの初期化
   _initDatabase() async {
     //ドキュメントディレクトリの取得
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -43,7 +53,7 @@ class DBHelper {
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
 
-  //テーブルの作成
+  ///テーブルの作成
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE ${ClassificationMasterConstants.tableName} (

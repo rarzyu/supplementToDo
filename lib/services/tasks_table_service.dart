@@ -6,23 +6,10 @@ import '../core/data/database/db_helper.dart';
 
 ///タスクテーブルのCRUD操作
 class TasksTableService {
-  ///選択した日付
-  final DateTime selectedDate;
-
-  ///ID
-  final int id;
-
-  TasksTableService({
-    required this.selectedDate,
-    required this.id,
-  });
-
-  ///ローカル変数群
   TasksDao tasksDao = TasksDao(DBHelper.instance);
 
   ///日付からタスクテーブルのデータを取得する
-  List<TasksDto> getTaskTableForDate() {
-    List<TasksDto> _res = [];
+  Future<List<TasksDto>> getTaskTableForDate(DateTime selectedDate) async {
     final String selectedDateString =
         DateFormat('yyyy-MM-dd').format(selectedDate);
 
@@ -40,16 +27,12 @@ class TasksTableService {
     ]);
 
     //抽出
-    Future<List<TasksDto>> queryResult = tasksDao.tasksQuery(tasksQueryOption);
-    queryResult.then((value) => _res);
-
+    List<TasksDto> _res = await tasksDao.tasksQuery(tasksQueryOption);
     return _res;
   }
 
   ///IDからタスクテーブルのデータを取得する
-  List<TasksDto> getTaskTableForId() {
-    List<TasksDto> _res = [];
-
+  Future<List<TasksDto>> getTaskTableForId(int id) async {
     //抽出用の条件クラスを作成する
     TasksQueryOption tasksQueryOption = TasksQueryOption(conditions: [
       TasksTableConstants.id
@@ -64,9 +47,14 @@ class TasksTableService {
     ]);
 
     //抽出
-    Future<List<TasksDto>> queryResult = tasksDao.tasksQuery(tasksQueryOption);
-    queryResult.then((value) => _res);
+    List<TasksDto> _res = await tasksDao.tasksQuery(tasksQueryOption);
+    return _res;
+  }
 
+  ///DTOからINSERT
+  Future<int> insertTaskTableForDTO(TasksDto dto) async {
+    //insert
+    int _res = await tasksDao.insertTasks(dto);
     return _res;
   }
 }

@@ -9,19 +9,17 @@ class TaskTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //状態管理
-    final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
-    String initTitle = editTaskNotifierWatch.supplementName;
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
+    String initTitle = editTaskNotifierRead.supplementName;
 
     final Icon icon = Icon(Icons.notes_rounded, color: AppColors.fontBlackBold);
     final String title = 'タイトル';
 
-    return Container(
-      child: Column(
-        children: [
-          AddEditSectionTitle(icon: icon, title: title),
-          TaskTextBox(initTitle: initTitle),
-        ],
-      ),
+    return Column(
+      children: [
+        AddEditSectionTitle(icon: icon, title: title),
+        TaskTextBox(initTitle: initTitle),
+      ],
     );
   }
 }
@@ -60,22 +58,20 @@ class _TaskTextBoxState extends State<TaskTextBox> {
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
     return Container(
-      padding: EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
-      child: Expanded(
-        child: TextField(
-          textInputAction: TextInputAction.done,
-          decoration: InputDecoration(
-            hintText: 'ここにタイトルを入力', //プレースホルダー
-            border: InputBorder.none, //ボーダーを消去
-          ),
-          style: TextStyle(
-            color: AppColors.fontBlack,
-          ),
-          //テキスト編集時処理
-          onChanged: (value) {
-            editTaskNotifierRead.setSupplementName(value);
-          },
+      padding: const EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
+      child: TextField(
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          hintText: 'ここにタイトルを入力', //プレースホルダー
+          border: InputBorder.none, //ボーダーを消去
         ),
+        style: TextStyle(
+          color: AppColors.fontBlack,
+        ),
+        //テキスト編集時処理
+        onChanged: (value) {
+          editTaskNotifierRead.setSupplementName(value);
+        },
       ),
     );
   }

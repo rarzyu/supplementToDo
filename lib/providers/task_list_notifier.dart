@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/models/task_list_model.dart';
+import 'package:supplement_to_do/services/task_list_service.dart';
 import '../models/base_task_model.dart';
 
 ///タスクリストModel用Provider
@@ -14,6 +15,16 @@ class TaskListNotifier with ChangeNotifier {
 
   ///ゲッター
   TaskListModel get model => taskListModel;
+
+  ///DBからデータを取得し、モデルに変換
+  void getTaskList(DateTime selectedDate) async {
+    TaskListService taskListService = TaskListService();
+
+    //DBからデータを取得
+    taskListModel = await taskListService.getSelectedDateTaskList(selectedDate);
+
+    notifyListeners();
+  }
 
   ///セッター
   ///リストの追加

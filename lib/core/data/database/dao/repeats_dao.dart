@@ -35,7 +35,7 @@ class RepeatsDao {
   ///INSERT
   Future<int> insertRepeats(RepeatsDto repeats) async {
     final db = await dbHelper.database;
-    return await db.insert(RepeatsTableConstants.tableName, repeats.toMap(),
+    return await db.insert(RepeatsTableConstants.tableName, repeats.toMapNoId(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
@@ -55,13 +55,19 @@ class RepeatsDao {
 
     //where句の生成
     //nullでない、かつ、要素数がオペレーター+1とカラム数で一致すること
-    if (option.conditions != null &&
-        option.isAnds != null &&
-        option.conditions!.length == option.isAnds!.length + 1) {
-      for (int i = 0; i < option.conditions!.length; i++) {
-        whereString += option.conditions![i]; //where句のカラム名
-        if (i < option.isAnds!.length) {
-          whereString += option.isAnds![i] ? ' AND ' : ' OR '; //フラグでANDとORを切り替え
+    if (option.isAnds == null && option.conditions?.length == 1) {
+      //AndsがNullでWhere句のカラムが１つなら
+      whereString += option.conditions![0] + ' = ?'; //where句のカラム名
+    } else {
+      if (option.conditions != null &&
+          option.isAnds != null &&
+          option.conditions!.length == option.isAnds!.length + 1) {
+        for (int i = 0; i < option.conditions!.length; i++) {
+          whereString += option.conditions![i] + ' = ?'; //where句のカラム名
+          if (i < option.isAnds!.length) {
+            whereString +=
+                option.isAnds![i] ? ' AND ' : ' OR '; //フラグでANDとORを切り替え
+          }
         }
       }
     }
@@ -70,26 +76,30 @@ class RepeatsDao {
     //nullでない、かつ、要素数がオペレーター+1とカラム数で一致すること
     if (option.sortColumns != null &&
         option.isASC != null &&
-        option.sortColumns!.length == option.isASC!.length + 1) {
+        option.sortColumns!.length == option.isASC!.length) {
       for (var i = 0; i < option.sortColumns!.length; i++) {
         orderByString += option.sortColumns![i];
         orderByString += option.isASC![i] ? ' ASC' : ' DESC';
+        if (i != option.sortColumns!.length - 1) {
+          orderByString += ',';
+        }
       }
     }
 
     final List<Map<String, dynamic>> maps = await db.query(
         RepeatsTableConstants.tableName,
-        columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
-        orderBy: orderByString);
+        orderBy: orderByString == '' ? null : orderByString);
+
     return List.generate(maps.length, (i) => RepeatsDto.fromMap(maps[i]));
   }
 
   ///UPDATE
   Future<int> updateRepeats(RepeatsDto repeats) async {
     final db = await dbHelper.database;
-    return await db.update(RepeatsTableConstants.tableName, repeats.toMap(),
+    return await db.update(
+        RepeatsTableConstants.tableName, repeats.toMapNoCreateDateTime(),
         where: '${RepeatsTableConstants.id} = ?', whereArgs: [repeats.id]);
   }
 

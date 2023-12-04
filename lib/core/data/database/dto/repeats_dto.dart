@@ -44,4 +44,30 @@ class RepeatsDto {
       RepeatsTableConstants.updatedDateTime: updatedDateTime,
     };
   }
+
+  ///DTOからデータベースのMapを作成
+  ///INSERT用、IDをなくしている
+  Map<String, dynamic> toMapNoId() {
+    return {
+      RepeatsTableConstants.repeatCode: repeatCode,
+      RepeatsTableConstants.repeatTitle: repeatTitle,
+      RepeatsTableConstants.dayOfWeek: dayOfWeek,
+      RepeatsTableConstants.interval: interval,
+      RepeatsTableConstants.createdDateTime: createdDateTime,
+      RepeatsTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
+
+  ///DTOからデータベースのMapを作成
+  ///UPDATE用、CreateDateTimeをなくしている
+  Map<String, dynamic> toMapNoCreateDateTime() {
+    return {
+      RepeatsTableConstants.id: id,
+      RepeatsTableConstants.repeatCode: repeatCode,
+      RepeatsTableConstants.repeatTitle: repeatTitle,
+      RepeatsTableConstants.dayOfWeek: dayOfWeek,
+      RepeatsTableConstants.interval: interval,
+      RepeatsTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
 }

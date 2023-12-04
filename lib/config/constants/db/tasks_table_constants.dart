@@ -8,7 +8,7 @@ class TasksTableConstants {
   static const String id = 'id';
 
   ///サプリメントID
-  static const String supplementId = 'sapplement_id';
+  static const String supplementId = 'supplement_id';
 
   ///服用予定日
   static const String scheduledDate = 'scheduled_date';

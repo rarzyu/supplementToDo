@@ -37,4 +37,26 @@ class SupplementsDto {
       SupplementsTableConstants.updatedDateTime: updatedDateTime,
     };
   }
+
+  ///DTOからデータベースのMapを作成
+  ///INSERT用、IDをなくしている
+  Map<String, dynamic> toMapNoId() {
+    return {
+      SupplementsTableConstants.supplementName: supplementName,
+      SupplementsTableConstants.classificationId: classificationId,
+      SupplementsTableConstants.createdDateTime: createdDateTime,
+      SupplementsTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
+
+  ///DTOからデータベースのMapを作成
+  ///UPDATE用、CreateDateTimeをなくしている
+  Map<String, dynamic> toMapNoCreateDateTime() {
+    return {
+      SupplementsTableConstants.id: id,
+      SupplementsTableConstants.supplementName: supplementName,
+      SupplementsTableConstants.classificationId: classificationId,
+      SupplementsTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
 }

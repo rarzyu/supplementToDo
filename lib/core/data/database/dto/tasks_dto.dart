@@ -53,4 +53,34 @@ class TasksDto {
       TasksTableConstants.updatedDateTime: updatedDateTime,
     };
   }
+
+  ///DTOからデータベースのMapを作成
+  ///INSERT用、IDをなくしている
+  Map<String, dynamic> toMapNoId() {
+    return {
+      TasksTableConstants.supplementId: supplementId,
+      TasksTableConstants.scheduledDate: scheduledDate,
+      TasksTableConstants.scheduledTime: scheduledTime,
+      TasksTableConstants.repeatId: repeatId,
+      TasksTableConstants.details: details,
+      TasksTableConstants.completed: completed,
+      TasksTableConstants.createdDateTime: createdDateTime,
+      TasksTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
+
+  ///DTOからデータベースのMapを作成
+  ///UPDATE用、CreateDateTimeをなくしている
+  Map<String, dynamic> toMapNoCreateDateTime() {
+    return {
+      TasksTableConstants.id: id,
+      TasksTableConstants.supplementId: supplementId,
+      TasksTableConstants.scheduledDate: scheduledDate,
+      TasksTableConstants.scheduledTime: scheduledTime,
+      TasksTableConstants.repeatId: repeatId,
+      TasksTableConstants.details: details,
+      TasksTableConstants.completed: completed,
+      TasksTableConstants.updatedDateTime: updatedDateTime,
+    };
+  }
 }

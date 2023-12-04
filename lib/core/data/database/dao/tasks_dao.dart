@@ -35,7 +35,7 @@ class TasksDao {
   ///INSERT
   Future<int> insertTasks(TasksDto tasks) async {
     final db = await dbHelper.database;
-    return await db.insert(TasksTableConstants.tableName, tasks.toMap(),
+    return await db.insert(TasksTableConstants.tableName, tasks.toMapNoId(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
@@ -55,13 +55,19 @@ class TasksDao {
 
     //where句の生成
     //nullでない、かつ、要素数がオペレーター+1とカラム数で一致すること
-    if (option.conditions != null &&
-        option.isAnds != null &&
-        option.conditions!.length == option.isAnds!.length + 1) {
-      for (int i = 0; i < option.conditions!.length; i++) {
-        whereString += option.conditions![i]; //where句のカラム名
-        if (i < option.isAnds!.length) {
-          whereString += option.isAnds![i] ? ' AND ' : ' OR '; //フラグでANDとORを切り替え
+    if (option.isAnds == null && option.conditions?.length == 1) {
+      //AndsがNullでWhere句のカラムが１つなら
+      whereString += option.conditions![0] + ' = ?'; //where句のカラム名
+    } else {
+      if (option.conditions != null &&
+          option.isAnds != null &&
+          option.conditions!.length == option.isAnds!.length + 1) {
+        for (int i = 0; i < option.conditions!.length; i++) {
+          whereString += option.conditions![i] + ' = ?'; //where句のカラム名
+          if (i < option.isAnds!.length) {
+            whereString +=
+                option.isAnds![i] ? ' AND ' : ' OR '; //フラグでANDとORを切り替え
+          }
         }
       }
     }
@@ -70,20 +76,21 @@ class TasksDao {
     //nullでない、かつ、要素数がオペレーター+1とカラム数で一致すること
     if (option.sortColumns != null &&
         option.isASC != null &&
-        option.sortColumns!.length == option.isASC!.length + 1) {
+        option.sortColumns!.length == option.isASC!.length) {
       for (var i = 0; i < option.sortColumns!.length; i++) {
         orderByString += option.sortColumns![i];
         orderByString += option.isASC![i] ? ' ASC' : ' DESC';
+        if (i != option.sortColumns!.length - 1) {
+          orderByString += ',';
+        }
       }
     }
 
-    //取得
     final List<Map<String, dynamic>> maps = await db.query(
         TasksTableConstants.tableName,
-        columns: option.conditions,
         where: whereString,
         whereArgs: option.conditionValues,
-        orderBy: orderByString);
+        orderBy: orderByString == '' ? null : orderByString);
 
     return List.generate(maps.length, (i) => TasksDto.fromMap(maps[i]));
   }
@@ -91,7 +98,8 @@ class TasksDao {
   ///UPDATE
   Future<int> updateTasks(TasksDto tasks) async {
     final db = await dbHelper.database;
-    return await db.update(TasksTableConstants.tableName, tasks.toMap(),
+    return await db.update(
+        TasksTableConstants.tableName, tasks.toMapNoCreateDateTime(),
         where: '${TasksTableConstants.id} = ?', whereArgs: [tasks.id]);
   }
 

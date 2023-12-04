@@ -4,19 +4,12 @@ import 'package:supplement_to_do/core/data/database/db_helper.dart';
 import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
 
 ///サプリメントテーブルのCRUD操作
+///同名はINSERTしない
 class SupplementsTableService {
-  final int id;
-  SupplementsTableService({
-    required this.id,
-  });
-
-  ///ローカル変数群
   SupplementsDao supplementsDao = SupplementsDao(DBHelper.instance);
 
   ///IDからデータを取得
-  List<SupplementsDto> getSupplementsForId() {
-    List<SupplementsDto> _res = [];
-
+  Future<List<SupplementsDto>> getSupplementsForId(int id) async {
     //条件用クラスの作成
     SupplementsQueryOption queryOption = SupplementsQueryOption(
       conditions: [SupplementsTableConstants.id],
@@ -24,21 +17,29 @@ class SupplementsTableService {
     );
 
     //抽出
-    Future<List<SupplementsDto>> queryResult =
-        supplementsDao.supplementsQuery(queryOption);
-    queryResult.then((value) => _res);
+    List<SupplementsDto> _res =
+        await supplementsDao.supplementsQuery(queryOption);
+    return _res;
+  }
 
+  ///名称からデータを取得
+  Future<List<SupplementsDto>> getSupplementsForName(String name) async {
+    //条件用クラスの作成
+    SupplementsQueryOption queryOption = SupplementsQueryOption(
+      conditions: [SupplementsTableConstants.supplementName],
+      conditionValues: [name],
+    );
+
+    //抽出
+    List<SupplementsDto> _res =
+        await supplementsDao.supplementsQuery(queryOption);
     return _res;
   }
 
   ///INSERT
-  int insertSupplements(SupplementsDto dto) {
-    int _res = 0;
-
+  Future<int> insertSupplements(SupplementsDto dto) async {
     //insert
-    Future<int> queryResult = supplementsDao.insertSupplements(dto);
-    queryResult.then((value) => _res);
-
+    int _res = await supplementsDao.insertSupplements(dto);
     return _res;
   }
 }

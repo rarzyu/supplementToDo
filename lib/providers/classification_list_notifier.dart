@@ -21,7 +21,7 @@ class ClassificationListNotifier extends ChangeNotifier {
 
   ///DBから取得し、モデルに反映後に返却する
   void getClassificationListModelForDB() async {
-    ClassificationMasterService service = ClassificationMasterService(id: 0);
+    ClassificationMasterService service = ClassificationMasterService();
 
     //まず初期化
     resetAll();
@@ -52,7 +52,7 @@ class ClassificationListNotifier extends ChangeNotifier {
   ///リストの追加
   ///戻り値：true=追加完了／false=追加せず、その同名の削除を復活させる
   Future<bool> addClassification(ClassificationModel classification) async {
-    ClassificationMasterService service = ClassificationMasterService(id: 0);
+    ClassificationMasterService service = ClassificationMasterService();
 
     //同名チェック
     bool checkResult =
@@ -66,11 +66,12 @@ class ClassificationListNotifier extends ChangeNotifier {
       return false;
     }
 
-    //追加
-    classificationListModel.classifications.add(classification);
-
     //DBにも追加
-    service.insertClassificationForModel(classification);
+    int id = await service.insertClassificationForModel(classification);
+
+    //戻り値のIDをセットしてから追加
+    classification.id = id;
+    classificationListModel.classifications.add(classification);
 
     notifyListeners();
 
@@ -84,8 +85,7 @@ class ClassificationListNotifier extends ChangeNotifier {
     final index = classificationListModel.classifications.indexWhere(
         (classification) => classification.id == updatedClassification.id);
 
-    ClassificationMasterService service =
-        ClassificationMasterService(id: updatedClassification.id);
+    ClassificationMasterService service = ClassificationMasterService();
 
     //要素が見つかる場合のみ実行
     if (index != -1) {
@@ -118,10 +118,10 @@ class ClassificationListNotifier extends ChangeNotifier {
     classificationListModel.classifications
         .removeWhere((classification) => classification.id == id);
 
-    ClassificationMasterService service = ClassificationMasterService(id: id);
+    ClassificationMasterService service = ClassificationMasterService();
 
     //DBからも削除（論理）
-    service.deleteClassification();
+    service.deleteClassification(id);
 
     notifyListeners();
   }

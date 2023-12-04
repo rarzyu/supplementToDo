@@ -7,13 +7,6 @@ import 'package:supplement_to_do/utils/date_time_common.dart';
 
 ///分類マスタのCRUD操作
 class ClassificationMasterService {
-  ///ID
-  final int id;
-
-  ClassificationMasterService({
-    required this.id,
-  });
-
   ///ローカル変数群
   ClassificationDao classificationDao = ClassificationDao(DBHelper.instance);
 
@@ -35,7 +28,7 @@ class ClassificationMasterService {
   }
 
   ///IDからデータを取得
-  Future<List<ClassificationDto>> getClassificationForId() async {
+  Future<List<ClassificationDto>> getClassificationForId(int id) async {
     //条件用のクラスの作成
     ClassificationQueryOption queryOption = ClassificationQueryOption(
       conditions: [ClassificationMasterConstants.id],
@@ -81,7 +74,7 @@ class ClassificationMasterService {
   }
 
   ///ClassificationModelからINSERTする
-  void insertClassificationForModel(ClassificationModel model) async {
+  Future<int> insertClassificationForModel(ClassificationModel model) async {
     String timeStamp = DateTimeCommon().createTimeStamp(DateTime.now());
     ClassificationDto dto = ClassificationDto(
         id: 0, //insertなので0固定
@@ -92,10 +85,11 @@ class ClassificationMasterService {
 
     //INSERT
     int queryResult = await classificationDao.insertClassification(dto);
+    return queryResult;
   }
 
   ///ClassificationModelの内容でUPDATEする
-  void updateClassificationForModel(ClassificationModel model) async {
+  Future<int> updateClassificationForModel(ClassificationModel model) async {
     String timeStamp = DateTimeCommon().createTimeStamp(DateTime.now());
     ClassificationDto dto = ClassificationDto(
         id: model.id,
@@ -106,19 +100,21 @@ class ClassificationMasterService {
 
     //UPDATE
     int queryResult = await classificationDao.updateClassification(dto);
+    return queryResult;
   }
 
   ///UPDATE
-  void updateClassification(ClassificationDto dto) async {
+  Future<int> updateClassification(ClassificationDto dto) async {
     //UPDATE
     int queryResult = await classificationDao.updateClassification(dto);
+    return queryResult;
   }
 
   ///IDでDELTE
   ///論理削除
-  void deleteClassification() async {
+  Future<int> deleteClassification(int id) async {
     //IDで取得する
-    List<ClassificationDto> selectResult = await getClassificationForId();
+    List<ClassificationDto> selectResult = await getClassificationForId(id);
 
     //更新後のDTO作成
     String timeStamp = DateTimeCommon().createTimeStamp(DateTime.now());
@@ -131,11 +127,6 @@ class ClassificationMasterService {
 
     //UPDATE
     int queryResult = await classificationDao.updateClassification(dto);
+    return queryResult;
   }
-
-  ///TODO
-  ///UPDATE・INSERT前に、すでにその分類名が存在するかのバリデーションチェックを行う
-  ///チェックに引っかかった場合は復活し、メッセージも出力する
-  ///UPDATEの場合、エラーとし、INSERTするようにメッセージを表示する
-  ///そのため、UPDATEなどは戻り値をboolにしておくと良いかも
 }
