@@ -21,7 +21,6 @@ class AddEditBottom extends StatelessWidget {
       padding: EdgeInsets.only(right: 20.0),
       child: TextButton(
         onPressed: () {
-          ///TODO
           ///完了ボタン押下時の処理
           ///このトリガーでDBに反映させる
           AddEditTaskService addEditTaskService =
@@ -29,6 +28,7 @@ class AddEditBottom extends StatelessWidget {
 
           if (isEditMode) {
             //編集
+            addEditTaskService.updateTask();
           } else {
             //追加
             addEditTaskService.insertTask();

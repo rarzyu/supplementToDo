@@ -66,6 +66,7 @@ class _DetailTextBoxState extends State<DetailTextBox> {
       padding: EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
       height: MediaQuery.of(context).size.height * 0.25,
       child: TextField(
+        controller: _controller,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: InputDecoration(

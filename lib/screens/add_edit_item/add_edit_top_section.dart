@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import '../../providers/edit_task_notifier.dart';
+import '../../services/add_edit_task_service.dart';
 
 ///追加・編集画面の最上位セクション
 class AddEditTopSection extends StatelessWidget {
@@ -59,14 +60,20 @@ class AddEditTopSection extends StatelessWidget {
 class AddEditTopDeletButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //状態管理
+    final editTaskNotifierRead = context.read<EditTaskNotifier>();
+
     return Container(
       width: 65.0,
       child: TextButton(
           onPressed: () {
-            ///TODO
             ///削除ボタンの処理
-            ///このトリガーでDBから削除する
-            print('delete');
+            ///このトリガーでDBから削除させる
+            AddEditTaskService addEditTaskService =
+                AddEditTaskService(editTaskNotifierRead: editTaskNotifierRead);
+
+            addEditTaskService.deleteTask();
+
             showDialog(
                 context: context,
                 builder: (BuildContext context) {

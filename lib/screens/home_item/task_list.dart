@@ -60,13 +60,16 @@ class ListItem extends StatelessWidget {
     //状態管理
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
 
+    int taskId = taskModel.taskId;
+
     return GestureDetector(
       //タップ領域をpaddingなども含めるようにする
       behavior: HitTestBehavior.opaque,
 
       onTap: () {
-        //フラグを編集モードに
-        editTaskNotifierRead.setEditModeFlg(true);
+        //タスクの取得
+        //この処理で編集モードにもなる
+        editTaskNotifierRead.getEditTaskForId(taskId);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return AddEditScreen();
         }));

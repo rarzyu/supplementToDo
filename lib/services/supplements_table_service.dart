@@ -36,10 +36,21 @@ class SupplementsTableService {
     return _res;
   }
 
-  ///INSERT
+  ///DTOでINSERT
   Future<int> insertSupplements(SupplementsDto dto) async {
-    //insert
     int _res = await supplementsDao.insertSupplements(dto);
+    return _res;
+  }
+
+  ///DTOでUPDATE
+  Future<int> updateSupplements(SupplementsDto dto) async {
+    int _res = await supplementsDao.updateSupplements(dto);
+    return _res;
+  }
+
+  ///IDでDELETE
+  Future<int> deleteSupplements(int id) async {
+    int _res = await supplementsDao.deleteSupplements(id);
     return _res;
   }
 }

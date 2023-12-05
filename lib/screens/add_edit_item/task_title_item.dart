@@ -60,6 +60,7 @@ class _TaskTextBoxState extends State<TaskTextBox> {
     return Container(
       padding: const EdgeInsets.fromLTRB(30.0, 0, 5.0, 0),
       child: TextField(
+        controller: _controller,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           hintText: 'ここにタイトルを入力', //プレースホルダー

@@ -52,9 +52,20 @@ class TasksTableService {
   }
 
   ///DTOからINSERT
-  Future<int> insertTaskTableForDTO(TasksDto dto) async {
-    //insert
+  Future<int> insertTaskTable(TasksDto dto) async {
     int _res = await tasksDao.insertTasks(dto);
+    return _res;
+  }
+
+  ///DTOからUPDATE
+  Future<int> updateTaskTable(TasksDto dto) async {
+    int _res = await tasksDao.updateTasks(dto);
+    return _res;
+  }
+
+  ///IDからDELETE
+  Future<int> deleteTaskTable(int id) async {
+    int _res = await tasksDao.deleteTasks(id);
     return _res;
   }
 }

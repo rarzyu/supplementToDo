@@ -25,4 +25,16 @@ class RepeatsTableService {
     int _res = await repeatsDao.insertRepeats(dto);
     return _res;
   }
+
+  ///DTOでUPDATE
+  Future<int> updateRepeats(RepeatsDto dto) async {
+    int _res = await repeatsDao.updateRepeats(dto);
+    return _res;
+  }
+
+  ///IDでDELETE
+  Future<int> deleteRepeats(int id) async {
+    int _res = await repeatsDao.deleteRepeats(id);
+    return _res;
+  }
 }

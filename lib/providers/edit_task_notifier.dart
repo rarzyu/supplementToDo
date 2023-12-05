@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/models/edit_task_model.dart';
+import 'package:supplement_to_do/services/add_edit_task_service.dart';
 
 ///編集用タスクModelのProvider
 final editTaskProvider = ChangeNotifierProvider<EditTaskNotifier>(
@@ -42,6 +43,16 @@ class EditTaskNotifier with ChangeNotifier {
   String get repeatTitle => editTaskModel.repeatTitle;
   String get dayOfWeek => editTaskModel.dayOfWeek;
   int get interval => editTaskModel.interval;
+
+  ///DBからタスクを取得
+  ///戻り値：EditTaskModel
+  ///引数：taskId
+  void getEditTaskForId(int tasksId) async {
+    AddEditTaskService addEditTaskService =
+        AddEditTaskService(editTaskNotifierRead: this);
+    EditTaskModel model = await addEditTaskService.getEditTaskForId(tasksId);
+    editTaskModel = model;
+  }
 
   ///セッター
   void setEditModeFlg(bool flg) {
