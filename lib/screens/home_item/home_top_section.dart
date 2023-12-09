@@ -130,6 +130,7 @@ class TaskAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     //状態管理
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
+    final dateNotifierRead = context.read<DateManagerNotifier>();
 
     return FloatingActionButton(
         backgroundColor: AppColors.baseObjectDarkBlue,
@@ -140,6 +141,14 @@ class TaskAddButton extends StatelessWidget {
           //modelを初期化する
           //フラグもfalseがセットされるので追加モードになる
           editTaskNotifierRead.resetAll();
+
+          DateTime scheduleDateTime = dateNotifierRead.selectedDate;
+          //現在時刻を追加
+          scheduleDateTime = scheduleDateTime.add(Duration(
+              hours: DateTime.now().hour, minutes: DateTime.now().minute));
+
+          //日付を状態管理に渡す
+          editTaskNotifierRead.setScheduleDateTime(scheduleDateTime);
 
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {

@@ -6,6 +6,7 @@ import 'package:supplement_to_do/models/task_list_model.dart';
 import 'package:supplement_to_do/services/classification_master_service.dart';
 import 'package:supplement_to_do/services/supplements_table_service.dart';
 import 'package:supplement_to_do/services/tasks_table_service.dart';
+import 'package:supplement_to_do/utils/date_time_common.dart';
 
 ///タスクリストのCRUD操作クラス
 ///ホーム画面用
@@ -80,5 +81,45 @@ class TaskListService {
       _res.taskList.add(baseTaskModel);
     }
     return _res;
+  }
+
+  ///完了フラグの更新
+  ///引数：
+  ///- taskId: タスクID
+  ///- completed: 完了フラグ
+  Future<int> updateCompleted(int taskId, bool completed) async {
+    TasksTableService tasksService = TasksTableService();
+
+    //タスクテーブルのデータを取得
+    List<TasksDto> resultTasks = await tasksService.getTaskTableForId(taskId);
+
+    //取得したデータが0件の場合は、0を返す
+    if (resultTasks.isEmpty) {
+      return 0;
+    }
+
+    //取得したデータが1件の場合は、更新を実行
+    if (resultTasks.length == 1) {
+      String updateTime = DateTimeCommon().createTimeStamp(DateTime.now());
+
+      //更新用のDTOを作成
+      TasksDto updateDto = TasksDto(
+          id: taskId,
+          repeatId: resultTasks[0].repeatId,
+          supplementId: resultTasks[0].supplementId,
+          details: resultTasks[0].details,
+          scheduledDate: resultTasks[0].scheduledDate,
+          scheduledTime: resultTasks[0].scheduledTime,
+          completed: completed ? 1 : 0,
+          createdDateTime: resultTasks[0].createdDateTime,
+          updatedDateTime: updateTime);
+
+      //更新
+      int _res = await tasksService.updateTaskTable(updateDto);
+      return _res;
+    }
+
+    //取得したデータが2件以上の場合は、0を返す
+    return 0;
   }
 }

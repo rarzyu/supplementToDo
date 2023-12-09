@@ -14,17 +14,11 @@ class TasksTableService {
         DateFormat('yyyy-MM-dd').format(selectedDate);
 
     //抽出用の条件クラスを作成する
-    TasksQueryOption tasksQueryOption = TasksQueryOption(conditions: [
-      TasksTableConstants.scheduledDate
-    ], conditionValues: [
-      selectedDateString
-    ], sortColumns: [
-      TasksTableConstants.scheduledDate,
-      TasksTableConstants.scheduledTime
-    ], isASC: [
-      true,
-      true
-    ]);
+    TasksQueryOption tasksQueryOption = TasksQueryOption(
+        conditions: [TasksTableConstants.scheduledDate],
+        conditionValues: [selectedDateString],
+        sortColumns: [TasksTableConstants.scheduledTime],
+        isASC: [true]);
 
     //抽出
     List<TasksDto> _res = await tasksDao.tasksQuery(tasksQueryOption);
@@ -34,17 +28,8 @@ class TasksTableService {
   ///IDからタスクテーブルのデータを取得する
   Future<List<TasksDto>> getTaskTableForId(int id) async {
     //抽出用の条件クラスを作成する
-    TasksQueryOption tasksQueryOption = TasksQueryOption(conditions: [
-      TasksTableConstants.id
-    ], conditionValues: [
-      id
-    ], sortColumns: [
-      TasksTableConstants.scheduledDate,
-      TasksTableConstants.scheduledTime
-    ], isASC: [
-      true,
-      true
-    ]);
+    TasksQueryOption tasksQueryOption = TasksQueryOption(
+        conditions: [TasksTableConstants.id], conditionValues: [id]);
 
     //抽出
     List<TasksDto> _res = await tasksDao.tasksQuery(tasksQueryOption);

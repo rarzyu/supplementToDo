@@ -126,6 +126,7 @@ class EditTaskNotifier with ChangeNotifier {
   }
 
   ///メソッド
+  ///初期化
   void resetAll() {
     editTaskModel = EditTaskModel(
         isEditMode: false,
@@ -142,5 +143,18 @@ class EditTaskNotifier with ChangeNotifier {
         repeatTitle: '',
         dayOfWeek: '',
         interval: 0);
+  }
+
+  ///バリデーションチェック
+  ///戻り値：string
+  ///エラー時：エラーメッセージ／エラーなし：空欄
+  String validationCheck() {
+    if (editTaskModel.supplementName.isEmpty) {
+      return 'タイトルを入力してください';
+    }
+    if (editTaskModel.classificationName.isEmpty) {
+      return '分類を選択してください';
+    }
+    return '';
   }
 }

@@ -41,6 +41,12 @@ class TaskListNotifier with ChangeNotifier {
     //要素が見つかる場合のみ実行
     if (index != -1) {
       taskListModel.taskList[index] = updatedTask;
+
+      ///DBに更新を反映させる
+      TaskListService taskListService = TaskListService();
+      taskListService.updateCompleted(
+          updatedTask.taskId, updatedTask.completed);
+
       notifyListeners();
     }
   }

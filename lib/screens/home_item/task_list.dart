@@ -15,12 +15,11 @@ class TaskList extends StatelessWidget {
     //状態管理
     final taskListNotifierRead = context.read<TaskListNotifier>();
     final taskListNotifierWatch = context.watch<TaskListNotifier>();
-    List taskList = taskListNotifierWatch.taskListModel.taskList;
-
     final dateNotifierRead = context.read<DateManagerNotifier>();
 
     //その日付のデータを取得する
     taskListNotifierRead.getTaskList(dateNotifierRead.selectedDate);
+    List taskList = taskListNotifierWatch.taskListModel.taskList;
 
     return Expanded(
       child: taskList.length == 0
@@ -70,9 +69,13 @@ class ListItem extends StatelessWidget {
         //タスクの取得
         //この処理で編集モードにもなる
         editTaskNotifierRead.getEditTaskForId(taskId);
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return AddEditScreen();
-        }));
+
+        //少し遅延
+        Future.delayed(Duration(milliseconds: 20), () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return AddEditScreen();
+          }));
+        });
       },
 
       child: Container(
@@ -126,6 +129,9 @@ class ListItem extends StatelessWidget {
       style: TextStyle(
         color: AppColors.fontBlack,
         fontSize: 18.0,
+        decoration: taskModel.completed
+            ? TextDecoration.lineThrough
+            : TextDecoration.none,
       ),
     );
   }

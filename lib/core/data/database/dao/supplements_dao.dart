@@ -36,7 +36,7 @@ class SupplementsDao {
   Future<int> insertSupplements(SupplementsDto supplements) async {
     final db = await dbHelper.database;
     return await db.insert(
-        SupplementsTableConstants.tableName, supplements.toMap(),
+        SupplementsTableConstants.tableName, supplements.toMapNoId(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

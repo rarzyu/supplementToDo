@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/services/add_edit_task_service.dart';
+import 'package:supplement_to_do/widgets/alert.dart';
 import '../../providers/edit_task_notifier.dart';
 
 ///ボトム部分
@@ -21,8 +22,23 @@ class AddEditBottom extends StatelessWidget {
       padding: EdgeInsets.only(right: 20.0),
       child: TextButton(
         onPressed: () {
-          ///完了ボタン押下時の処理
-          ///このトリガーでDBに反映させる
+          String validationMessage = editTaskNotifierRead.validationCheck();
+          //バリデーションチェック
+          if (validationMessage != '') {
+            String title = '項目エラー';
+            Icon icon = Icon(
+              Icons.error,
+              color: Colors.red,
+            );
+
+            //エラー時処理
+            Alert().showGeneralMessageAlert(
+                context, title, validationMessage, icon);
+            return;
+          }
+
+          //完了ボタン押下時の処理
+          //このトリガーでDBに反映させる
           AddEditTaskService addEditTaskService =
               AddEditTaskService(editTaskNotifierRead: editTaskNotifierRead);
 
