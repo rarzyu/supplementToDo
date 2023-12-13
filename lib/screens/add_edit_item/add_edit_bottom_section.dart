@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/services/add_edit_task_service.dart';
+import 'package:supplement_to_do/services/notification_service.dart';
 import 'package:supplement_to_do/widgets/alert.dart';
 import '../../providers/edit_task_notifier.dart';
 
@@ -13,6 +14,8 @@ class AddEditBottom extends StatelessWidget {
     final editTaskNotifierWatch = context.watch<EditTaskNotifier>();
     final editTaskNotifierRead = context.read<EditTaskNotifier>();
     bool isEditMode = editTaskNotifierWatch.isEditMode;
+
+    final NotificationService notificationService = NotificationService();
 
     return Container(
       color: AppColors.sectionTitleLightGray,
@@ -49,6 +52,12 @@ class AddEditBottom extends StatelessWidget {
             //追加
             addEditTaskService.insertTask();
           }
+
+          //通知を追加
+          // notificationService.scheduleNotificationForNewTask(
+          //     editTaskNotifierRead.taskId,
+          //     editTaskNotifierRead.supplementName,
+          //     editTaskNotifierRead.scheduleDateTime);
 
           showDialog(
               context: context,

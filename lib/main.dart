@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           // アプリケーションでサポートされるロケールのリスト
           supportedLocales: [
             const Locale('en', 'US'), //English
