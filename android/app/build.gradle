@@ -28,6 +28,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def loadProperties(filename) {
+    def props = new Properties()
+    file(filename).withInputStream {
+        props.load(it)
+    }
+    return props
+}
+
 android {
     namespace "com.rarzyu.supplement_to_do"
     compileSdkVersion flutter.compileSdkVersion
@@ -55,6 +63,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true // multidexサポートライブラリを使用する
     }    
     
     signingConfigs {
@@ -67,10 +76,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            def props = loadProperties("$rootDir/app/gradle.properties")
+            manifestPlaceholders = [admobAppId: props.admobAppIdDebug]
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
+            def props = loadProperties("$rootDir/app/gradle.properties")
+            manifestPlaceholders = [admobAppId: props.admobAppIdRelease]
         }
     }
 }
@@ -80,4 +95,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+}

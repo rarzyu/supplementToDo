@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +11,11 @@ import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'providers/edit_task_notifier.dart';
 import 'screens/home_screen.dart';
 
-void main() {
+Future main() async {
   //true:境界を見えるようにする
   //debugPaintSizeEnabled = true;
+
+  await dotenv.load(fileName: '.env');
 
   initializeDateFormatting('ja_JP').then((_) => runApp(
         ChangeNotifierProvider(

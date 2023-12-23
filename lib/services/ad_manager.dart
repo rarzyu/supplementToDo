@@ -1,0 +1,89 @@
+import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+class AdManager {
+  late BannerAd bannerAd;
+  InterstitialAd? interstitialAd;
+
+  AdManager() {
+    _createBannerAd();
+    _createInterstitialAd();
+  }
+
+  String get bannerAdUnitId {
+    bool isDebug = false;
+    assert(isDebug = true);
+
+    if (Platform.isAndroid) {
+      return isDebug
+          ? dotenv.env['ADMOB_BANNER_ID_ANDROID_TEST'] ?? ''
+          : dotenv.env['ADMOB_BANNER_ID_ANDROID'] ?? '';
+    } else if (Platform.isIOS) {
+      return isDebug
+          ? dotenv.env['ADMOB_BANNER_ID_IOS_TEST'] ?? ''
+          : dotenv.env['ADMOB_BANNER_ID_IOS'] ?? '';
+    }
+    return '';
+  }
+
+  String get interstitialAdUnitId {
+    bool isDebug = false;
+    assert(isDebug = true);
+
+    if (Platform.isAndroid) {
+      return isDebug
+          ? dotenv.env['ADMOB_INTERSTITIAL_ID_ANDROID_TEST'] ?? ''
+          : dotenv.env['ADMOB_INTERSTITIAL_ID_ANDROID'] ?? '';
+    } else if (Platform.isIOS) {
+      return isDebug
+          ? dotenv.env['ADMOB_INTERSTITIAL_ID_IOS_TEST'] ?? ''
+          : dotenv.env['ADMOB_INTERSTITIAL_ID_IOS'] ?? '';
+    }
+    return '';
+  }
+
+  void _createBannerAd() {
+    bannerAd = BannerAd(
+      adUnitId: bannerAdUnitId,
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          print('Banner Ad Loaded');
+        },
+        onAdFailedToLoad: (ad, error) {
+          print('Banner Ad Failed to load: $error');
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: interstitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          this.interstitialAd = ad;
+        },
+        onAdFailedToLoad: (error) {
+          print('Interstitial Ad Failed to load: $error');
+        },
+      ),
+    );
+  }
+
+  void showInterstitialAd() {
+    if (interstitialAd != null) {
+      interstitialAd!.show();
+      interstitialAd = null;
+    }
+  }
+
+  void dispose() {
+    bannerAd.dispose();
+    interstitialAd?.dispose();
+  }
+}
