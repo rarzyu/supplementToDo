@@ -1,10 +1,17 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdManager {
   late BannerAd bannerAd;
   InterstitialAd? interstitialAd;
+
+  static const retryMaxCount = 3; // 最大リトライ回数
+  int retryCount = 0; // リトライ回数
+
+  var random = Random().nextInt(100); // 0~99の乱数
+  static const adRate = 40; // 広告表示率
 
   AdManager() {
     _createBannerAd();
@@ -66,20 +73,32 @@ class AdManager {
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
-          this.interstitialAd = ad;
+          interstitialAd = ad;
+          print('Interstitial Ad Loaded');
         },
         onAdFailedToLoad: (error) {
           print('Interstitial Ad Failed to load: $error');
+
+          // リトライ
+          if (retryCount < retryMaxCount) {
+            retryCount++;
+            _createInterstitialAd();
+          }
         },
       ),
     );
   }
 
-  void showInterstitialAd() {
+  showInterstitialAd() {
     if (interstitialAd != null) {
-      interstitialAd!.show();
-      interstitialAd = null;
+      if (random < adRate) {
+        interstitialAd!.show();
+        interstitialAd = null;
+      }
+    } else {
+      _createInterstitialAd();
     }
+    random = Random().nextInt(100);
   }
 
   void dispose() {

@@ -6,10 +6,21 @@ import 'package:supplement_to_do/providers/edit_task_notifier.dart';
 import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import '../../providers/date_manager_notifier.dart';
+import '../../services/ad_manager.dart';
 
 ///タスク一覧セクション
 ///セクション全体
 class TaskList extends StatelessWidget {
+  AdManager? adManager;
+
+  TaskList() {
+    adManager = AdManager();
+  }
+
+  dispose() {
+    adManager!.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     //状態管理
@@ -39,6 +50,7 @@ class TaskList extends StatelessWidget {
                     index: index,
                     taskModel: taskList[index],
                     taskListNotifierRead: taskListNotifierRead,
+                    adManager: adManager!,
                   )),
     );
   }
@@ -49,10 +61,13 @@ class ListItem extends StatelessWidget {
   final int index;
   final BaseTaskModel taskModel;
   final TaskListNotifier taskListNotifierRead;
-  const ListItem(
+  final AdManager adManager;
+
+  ListItem(
       {required this.index,
       required this.taskModel,
-      required this.taskListNotifierRead});
+      required this.taskListNotifierRead,
+      required this.adManager});
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +87,7 @@ class ListItem extends StatelessWidget {
 
         //少し遅延
         Future.delayed(Duration(milliseconds: 20), () {
+          adManager.showInterstitialAd();
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return AddEditScreen();
           }));

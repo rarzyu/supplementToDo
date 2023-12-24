@@ -11,7 +11,7 @@ import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'providers/edit_task_notifier.dart';
 import 'screens/home_screen.dart';
 
-Future main() async {
+Future<void> main() async {
   //true:境界を見えるようにする
   //debugPaintSizeEnabled = true;
 

@@ -8,6 +8,7 @@ import 'package:supplement_to_do/config/constants/color.dart';
 import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'package:supplement_to_do/screens/add_edit_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:supplement_to_do/services/ad_manager.dart';
 import '../../providers/edit_task_notifier.dart';
 
 ///セクション全体
@@ -126,6 +127,16 @@ class _YearMonthSelect extends State<YearMonthSelect> {
 
 ///新規追加ボタン
 class TaskAddButton extends StatelessWidget {
+  AdManager? adManager;
+
+  TaskAddButton() {
+    adManager = AdManager();
+  }
+
+  dispose() {
+    adManager!.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     //状態管理
@@ -149,6 +160,8 @@ class TaskAddButton extends StatelessWidget {
 
           //日付を状態管理に渡す
           editTaskNotifierRead.setScheduleDateTime(scheduleDateTime);
+
+          adManager!.showInterstitialAd();
 
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {

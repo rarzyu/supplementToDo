@@ -53,12 +53,6 @@ class AddEditBottom extends StatelessWidget {
             addEditTaskService.insertTask();
           }
 
-          //通知を追加
-          // notificationService.scheduleNotificationForNewTask(
-          //     editTaskNotifierRead.taskId,
-          //     editTaskNotifierRead.supplementName,
-          //     editTaskNotifierRead.scheduleDateTime);
-
           showDialog(
               context: context,
               builder: (BuildContext context) {

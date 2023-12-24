@@ -27,12 +27,15 @@ class HomeScreen extends StatelessWidget {
             TopSection(),
             DateSelector(),
             TaskList(),
-            // if (adManager.bannerAd != null)
-            Container(
-              alignment: Alignment.center,
-              child: AdWidget(ad: adManager.bannerAd),
-              width: adManager.bannerAd.size.width.toDouble(),
-              height: adManager.bannerAd.size.height.toDouble(),
+            if (adManager.bannerAd != null)
+              Container(
+                alignment: Alignment.center,
+                child: AdWidget(ad: adManager.bannerAd),
+                width: adManager.bannerAd.size.width.toDouble(),
+                height: adManager.bannerAd.size.height.toDouble(),
+              ),
+            SizedBox(
+              height: 10,
             ),
           ],
         ),
