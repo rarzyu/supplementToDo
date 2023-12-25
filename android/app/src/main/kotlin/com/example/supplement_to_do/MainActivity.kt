@@ -1,4 +1,4 @@
-package com.example.supplement_to_do
+package com.rarzyu.supplement_to_do
 
 import io.flutter.embedding.android.FlutterActivity
 

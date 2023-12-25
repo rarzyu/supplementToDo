@@ -8,7 +8,7 @@
 PRODUCT_NAME = supplement_to_do
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.supplementToDo
+PRODUCT_BUNDLE_IDENTIFIER = com.rarzyu.supplementToDo
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.rarzyu. All rights reserved.
