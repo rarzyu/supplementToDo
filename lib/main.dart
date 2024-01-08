@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -10,12 +13,38 @@ import 'package:supplement_to_do/providers/date_manager_notifier.dart';
 import 'package:supplement_to_do/providers/task_list_notifier.dart';
 import 'providers/edit_task_notifier.dart';
 import 'screens/home_screen.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 Future<void> main() async {
   //true:境界を見えるようにする
   //debugPaintSizeEnabled = true;
 
   await dotenv.load(fileName: '.env');
+
+  //タイムゾーンを日本時間にする
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
+
+  //上記で作成したインスタンス経由で、許可ダイアログを表示するメソッドを実行
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  if (Platform.isAndroid) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .requestNotificationsPermission();
+  } else if (Platform.isIOS) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()!
+        .requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
 
   initializeDateFormatting('ja_JP').then((_) => runApp(
         ChangeNotifierProvider(
