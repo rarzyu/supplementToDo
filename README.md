@@ -1,16 +1,21 @@
-# supplement_to_do
+# サプリメントToDo
+サプリメントや薬の飲み忘れを防ぐためのToDoアプリです。
 
-A new Flutter project.
+## 特徴
+- 分類・詳細で明確に
+    - サプリメントと薬、健康系と美容系など、自由に分類をつけられます。
+    - また、詳細を記述できるのでカスタマイズも簡単です。
 
-## Getting Started
+## アプリのインストール
+- iOS
+    - https://apps.apple.com/jp/app/%E3%82%B5%E3%83%97%E3%83%AA%E3%83%A1%E3%83%B3%E3%83%88todo/id6474133320
+- Android
+    - https://play.google.com/store/apps/details?id=com.rarzyu.supplement_to_do&pcampaignid=web_share
 
-This project is a starting point for a Flutter application.
+## ライセンス
+このプロジェクトはGNU General Public License v3.0の下でライセンスされています。詳細はLICENSEファイルを参照してください。
 
-A few resources to get you started if this is your first Flutter project:
+This project is licensed under the GNU General Public License v3.0. For more details, see the LICENSE file.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 著者
+[らるじゅ(rarzyu)](https://github.com/rarzyu)
