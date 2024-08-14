@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
-import 'package:supplement_to_do/core/data/database/dto/tasks_dto.dart';
-import '../config/constants/db/tasks_table_constants.dart';
-import '../core/data/database/dao/tasks_dao.dart';
-import '../core/data/database/db_helper.dart';
+import '../../lib_old/core/data/database/dto/tasks_dto.dart';
+import '../../lib_old/constants/db/tasks_table_constants.dart';
+import '../../lib_old/core/data/database/dao/tasks_dao.dart';
+import '../../lib_old/core/data/database/db_helper.dart';
 
 ///タスクテーブルのCRUD操作
 class TasksTableService {

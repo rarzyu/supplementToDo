@@ -1,12 +1,12 @@
-import 'package:supplement_to_do/core/data/database/dto/classification_dto.dart';
-import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
-import 'package:supplement_to_do/core/data/database/dto/tasks_dto.dart';
-import 'package:supplement_to_do/models/base_task_model.dart';
-import 'package:supplement_to_do/models/task_list_model.dart';
-import 'package:supplement_to_do/services/classification_master_service.dart';
-import 'package:supplement_to_do/services/supplements_table_service.dart';
-import 'package:supplement_to_do/services/tasks_table_service.dart';
-import 'package:supplement_to_do/utils/date_time_common.dart';
+import '../../lib_old/core/data/database/dto/classification_dto.dart';
+import '../../lib_old/core/data/database/dto/supplements_dto.dart';
+import '../../lib_old/core/data/database/dto/tasks_dto.dart';
+import '../data/models/base_task_model.dart';
+import '../data/models/task_list_model.dart';
+import 'classification_master_service.dart';
+import 'supplements_table_service.dart';
+import 'tasks_table_service.dart';
+import '../utils/date_time_util.dart';
 
 ///タスクリストのCRUD操作クラス
 ///ホーム画面用

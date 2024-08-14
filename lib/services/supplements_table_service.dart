@@ -1,7 +1,7 @@
-import 'package:supplement_to_do/config/constants/db/supplements_table_constants.dart';
-import 'package:supplement_to_do/core/data/database/dao/supplements_dao.dart';
-import 'package:supplement_to_do/core/data/database/db_helper.dart';
-import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
+import '../../lib_old/constants/db/supplements_table_constants.dart';
+import '../../lib_old/core/data/database/dao/supplements_dao.dart';
+import '../../lib_old/core/data/database/db_helper.dart';
+import '../../lib_old/core/data/database/dto/supplements_dto.dart';
 
 ///サプリメントテーブルのCRUD操作
 ///同名はINSERTしない

@@ -1,7 +1,7 @@
-import 'package:supplement_to_do/config/constants/db/repeats_table_constants.dart';
-import 'package:supplement_to_do/core/data/database/dao/repeats_dao.dart';
-import 'package:supplement_to_do/core/data/database/db_helper.dart';
-import 'package:supplement_to_do/core/data/database/dto/repeats_dto.dart';
+import '../../lib_old/constants/db/repeats_table_constants.dart';
+import '../../lib_old/core/data/database/dao/repeats_dao.dart';
+import '../../lib_old/core/data/database/db_helper.dart';
+import '../../lib_old/core/data/database/dto/repeats_dto.dart';
 
 ///繰り返しテーブルのCRUD操作
 class RepeatsTableService {

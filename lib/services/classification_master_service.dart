@@ -1,9 +1,9 @@
-import 'package:supplement_to_do/config/constants/db/classification_master_constants.dart';
-import 'package:supplement_to_do/core/data/database/dao/classification_dao.dart';
-import 'package:supplement_to_do/core/data/database/db_helper.dart';
-import 'package:supplement_to_do/core/data/database/dto/classification_dto.dart';
-import 'package:supplement_to_do/models/classification_model.dart';
-import 'package:supplement_to_do/utils/date_time_common.dart';
+import '../../lib_old/constants/db/classification_master_constants.dart';
+import '../../lib_old/core/data/database/dao/classification_dao.dart';
+import '../../lib_old/core/data/database/db_helper.dart';
+import '../../lib_old/core/data/database/dto/classification_dto.dart';
+import '../data/models/classification_model.dart';
+import '../utils/date_time_util.dart';
 
 ///分類マスタのCRUD操作
 class ClassificationMasterService {

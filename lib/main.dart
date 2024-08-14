@@ -7,19 +7,16 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import 'package:supplement_to_do/config/constants/color.dart';
-import 'package:supplement_to_do/providers/classification_list_notifier.dart';
-import 'package:supplement_to_do/providers/date_manager_notifier.dart';
-import 'package:supplement_to_do/providers/task_list_notifier.dart';
-import 'providers/edit_task_notifier.dart';
-import 'screens/home_screen.dart';
+import '../lib_old/constants/color.dart';
+import 'providers/classification_list_provider.dart';
+import 'providers/date_provider.dart';
+import 'providers/task_list_provider.dart';
+import 'providers/edit_task_provider.dart';
+import '../lib_old/screens/home_screen.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 Future<void> main() async {
-  //true:境界を見えるようにする
-  //debugPaintSizeEnabled = true;
-
   await dotenv.load(fileName: '.env');
 
   //タイムゾーンを日本時間にする

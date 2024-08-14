@@ -1,14 +1,14 @@
-import 'package:supplement_to_do/core/data/database/dto/classification_dto.dart';
-import 'package:supplement_to_do/core/data/database/dto/repeats_dto.dart';
-import 'package:supplement_to_do/core/data/database/dto/supplements_dto.dart';
-import 'package:supplement_to_do/core/data/database/dto/tasks_dto.dart';
-import 'package:supplement_to_do/models/edit_task_model.dart';
-import 'package:supplement_to_do/providers/edit_task_notifier.dart';
-import 'package:supplement_to_do/services/classification_master_service.dart';
-import 'package:supplement_to_do/services/repeats_table_service.dart';
-import 'package:supplement_to_do/services/supplements_table_service.dart';
-import 'package:supplement_to_do/services/tasks_table_service.dart';
-import 'package:supplement_to_do/utils/date_time_common.dart';
+import '../../lib_old/core/data/database/dto/classification_dto.dart';
+import '../../lib_old/core/data/database/dto/repeats_dto.dart';
+import '../../lib_old/core/data/database/dto/supplements_dto.dart';
+import '../../lib_old/core/data/database/dto/tasks_dto.dart';
+import '../data/models/edit_task_model.dart';
+import '../providers/edit_task_provider.dart';
+import 'classification_master_service.dart';
+import 'repeats_table_service.dart';
+import 'supplements_table_service.dart';
+import 'tasks_table_service.dart';
+import '../utils/date_time_util.dart';
 
 ///追加・編集用のCRUD操作
 class AddEditTaskService {
